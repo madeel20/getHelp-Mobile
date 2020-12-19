@@ -1,13 +1,14 @@
 import {useDispatch} from "react-redux";
 import React, {useEffect, useState} from "react";
 import {loadSubjects} from "../../../Store/Actions/SubjectActions";
-import Paper from "@material-ui/core/Paper/Paper";
-import Button from "@material-ui/core/Button";
 import {updateHelpStatus} from "../../../Store/Actions/HelpActions";
 import { helpGigStatus, websiteLink} from "../../../utils/Constants";
-import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import {firestore} from "../../../firebase";
-import Notifier from "react-desktop-notification";
+import CenteredLoading from "../../../components/CenteredLoading";
+import { Text, View } from "react-native";
+import CIContainer from "../../../components/CIContainer";
+import H1 from "../../../components/H1";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const HelpAccepted =({helperId,onCancel})=>{
 	const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const HelpAccepted =({helperId,onCancel})=>{
 			if(res.docs.length>0){
 				setHelperUser(res.docs[0].data());
 				setLoading(false);
-				Notifier.start(res.docs[0].data().fullName +" has accepted you request!","",websiteLink);
+				alert(res.docs[0].data().fullName +" has accepted you request!");
 			}
 		});
 	},[]);
@@ -32,18 +33,22 @@ const HelpAccepted =({helperId,onCancel})=>{
 		}));
 	};
 	return (
-		<div className={"container "} style={{height:"400px"}}>
-			<Paper className={"p-4 text-center"}>
+		<CIContainer>
+			<View>
 				{loading ?
-					<CircularProgress size={30}/>
+					<CenteredLoading />
 					:<>
-						<h5>Congrats! {helperUser.fullName} would like to help you!</h5>
-						<a href={helperUser.meetLink} target={"_blank"}> Go To Meeting </a>
-						<Button color={"secondary"} onClick={handleDone}> Done </Button>
+						<H1 text={`Congrats! ${helperUser.fullName} would like to help you!`}/>
+						<Text> Go To Meeting </Text>
+						<TouchableOpacity style={Styles.btn} onPress={handleDone}>
+							<Text style={Styles.btnText}>
+								Done
+							</Text>
+						</TouchableOpacity>
 					</>
 				}
-			</Paper>
-		</div>
+			</View>
+		</CIContainer>
 	);
 };
 

@@ -10,6 +10,7 @@ import { Text, View } from "react-native";
 import CIContainer from "../../components/CIContainer";
 import {MultipleSelectPicker} from 'react-native-multi-select-picker';
 import { TouchableOpacity } from "react-native-gesture-handler";
+import {getArrayOfSubjectsAsLabeValueKeys,getBackAsOriginalSubjectStructure} from '../../utils/helpers'
 const ThirdStep = ({ onNext }) => {
 	const dispatch = useDispatch();
 	const [subjects, setSubjects] = useState([]);
@@ -22,36 +23,14 @@ const ThirdStep = ({ onNext }) => {
 		}
 	});
 	const { data, loading } = stateProps;
-	const getArrayOfSubjectsAsLabeValueKeys = ()=>{
-			let sub = [];
-			data.map(it=>{
-				sub.push({id:it.id,label:it.name,value: it.id})
-			});
-			return sub;
-	}
-	const getBackAsOriginalSubjectStructure = ()=>{
-			let sub =[];
-			subjects.map(it=>{
-					sub.push({id:it.value,name:it.label})
-			});
-			return sub;
-	}
 	const handleSubmit = (e) => {
 		// if(subjects.length===0){
 		// 	setError("Please select atleast one subject.");
 		// 	setOpen(true);
 		// 	return;
 		// }
-		dispatch(setNewUserData({ subjects:getBackAsOriginalSubjectStructure() }));
+		dispatch(setNewUserData({ subjects:getBackAsOriginalSubjectStructure(subjects) }));
 		onNext();
-	};
-	const handleChange = (e) => {
-		if (e.target.checked) {
-			setSubjects(prevState => [...prevState, { id: e.target.value, name: e.target.name }]);
-		}
-		else {
-			setSubjects(prevState => prevState.filter(it => it.id !== e.target.value));
-		}
 	};
 	return (
 		<CIContainer>
@@ -64,7 +43,7 @@ const ThirdStep = ({ onNext }) => {
 					<>
 						<Text>Select the subjects you’d like to help in.</Text>
 						<MultipleSelectPicker
-							items={getArrayOfSubjectsAsLabeValueKeys()}
+							items={getArrayOfSubjectsAsLabeValueKeys(data)}
 							style={Styles.checkboxContainer}
 							onSelectionsChange={(ele) => {
 								setSubjects(ele);

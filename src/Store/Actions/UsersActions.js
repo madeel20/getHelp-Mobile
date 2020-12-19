@@ -60,7 +60,7 @@ export const updateMeetingLink = (payload,CB) => dispatch => {
 };
 export const updateHelperUserStatus = (payload,CB) => dispatch =>{
 	if( auth && auth().currentUser && auth().currentUser.uid) {
-		database
+		database()
 			.ref("helpers").child(auth().currentUser.uid)
 			.update(payload)
 			.then((res) => {

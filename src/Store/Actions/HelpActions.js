@@ -5,7 +5,7 @@ import {helperStatus, helpGigStatus, UserRoles} from "../../utils/Constants";
 
 export const insertHelp = (payload,CB) => dispatch => {
 	dispatch({type:GetHelp.INSERTING_HELP,payload: {loading:true}});
-	database
+	database()
 		.ref("helpGigs").child(auth().currentUser.uid)
 		.update(payload)
 		.then(async () => {
@@ -23,7 +23,7 @@ export const insertHelp = (payload,CB) => dispatch => {
 };
 export const updateHelpStatus = (payload,CB) => dispatch => {
 	dispatch({type:GetHelp.CANCEL_HELP,payload: {loading:true}});
-	database
+	database()
 		.ref("helpGigs").child(auth().currentUser.uid)
 		.update(payload)
 		.then(() => {
@@ -52,7 +52,7 @@ export const updateHelpGig = (gidId,payload,CB) => dispatch => {
 		});
 };
 export const setAssignedUserOfHelperUser = (payload,CB) => dispatch => {
-	database
+	database()
 		.ref("helpers").child(auth().currentUser.uid)
 		.update(payload)
 		.then(() => {

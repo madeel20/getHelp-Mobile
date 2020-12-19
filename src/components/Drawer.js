@@ -6,13 +6,13 @@ import auth from '@react-native-firebase/auth';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon1 from 'react-native-vector-icons/Ionicons';
 import {useSelector} from 'react-redux';
-export function DrawerContent(props) {
+ function DrawerContent(props) {
   const stateProps = useSelector(({User}) => {
     return {
       ...User,
     };
   });
-  const {fullname, phoneNumber, image} = stateProps;
+  const {fullName,grade,meetLink} = stateProps.data;
   return (
     <View
       style={{
@@ -22,10 +22,9 @@ export function DrawerContent(props) {
         overflow: 'hidden',
       }}>
       <View style={{justifyContent: 'center', alignContent: 'center'}}>
-        <Image style={styles.image} source={{uri: image}} />
         <View style={styles.info}>
-          <Title style={styles.title}>{fullname}</Title>
-          <Caption style={styles.caption}>{phoneNumber}</Caption>
+          <Title style={styles.title}>{fullName}</Title>
+          <Caption style={styles.caption}>{grade}</Caption>
         </View>
       </View>
       <DrawerContentScrollView
@@ -176,3 +175,5 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-SemiBold',
   },
 });
+
+export default DrawerContent

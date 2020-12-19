@@ -1,105 +1,64 @@
-import React, {useEffect, useState} from "react";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-import ArrowForwardIcon from "@material-ui/core/SvgIcon/SvgIcon";
-import {loadSubjects} from "../../Store/Actions/SubjectActions";
-import {useDispatch, useSelector} from "react-redux";
-import {updateProfileDetails,} from "../../Store/Actions/UsersActions";
-import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
-import Snackbar from "@material-ui/core/Snackbar/Snackbar";
-import Alert from "@material-ui/lab/Alert/Alert";
-import TextField from "@material-ui/core/TextField/TextField";
-import {Link} from "react-router-dom";
-const EditProfile = ()=>{
+import React, { useEffect, useState } from "react";
+import { loadSubjects } from "../../Store/Actions/SubjectActions";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProfileDetails, } from "../../Store/Actions/UsersActions";
+import CIContainer from "../../components/CIContainer";
+import CenteredLoading from "../../components/CenteredLoading";
+import H1 from "../../components/H1";
+import CInput from "../../components/CInput";
+import { TouchableOpacity } from "react-native-gesture-handler";
+const EditProfile = () => {
 	const dispatch = useDispatch();
-	const [error,setError] = useState(false);
-	const [open,setOpen] = useState(false);
-	const [msg,setMsg] = useState("");
-
-	useEffect(()=>{
+	useEffect(() => {
 		dispatch(loadSubjects());
-	},[]);
-	const stateProps = useSelector(({User})=>{
+	}, []);
+	const stateProps = useSelector(({ User }) => {
 		return {
 			...User
 		};
 	});
-	const {data,loading,updatingDetailsLoading} = stateProps;
-	const [fullName,setFullName] = useState(data.fullName||"");
-	const [grade,setGrade] = useState(data.grade||"");
-	const handleSubmit = (e)=>{
-		e.preventDefault();
-		if(fullName==="" || grade === ""){
-			setError("Please fill all the fields.");
-			setOpen(true);
+	const { data, loading, updatingDetailsLoading } = stateProps;
+	const [fullName, setFullName] = useState(data.fullName || "");
+	const [grade, setGrade] = useState(data.grade || "");
+	const handleSubmit = (e) => {
+		if (fullName === "" || grade === "") {
+			alert("Please fill all the fields.");
 			return;
 		}
-		if(parseInt(grade)>10){ setError("Invalid Grade!"); setOpen(true); return;  }
-		dispatch(updateProfileDetails({grade,fullName},()=>{
+		if (parseInt(grade) > 10) { setError("Invalid Grade!"); setOpen(true); return; }
+		dispatch(updateProfileDetails({ grade, fullName }, () => {
 			setError("");
 			setMsg("Profile Updated!");
 			setOpen(true);
 		}));
 	};
 	return (
-		<div className={"container "}>
-			<Paper className={"p-4 d-flex flex-column justify-content-center align-items-center"}>
-				{loading || updatingDetailsLoading?
-					<CircularProgress  size={30}/>
+		<CIContainer>
+			<View style={Styles.innerContainer}>
+				{loading || updatingDetailsLoading ?
+					<CenteredLoading size="large" />
 					:
 					<>
-						<span className={"c-h1"}>Edit Profile</span>
-						<form className={"p-4 d-flex flex-column justify-content-center align-items-center"} noValidate autoComplete="off" onSubmit={handleSubmit}>
-
-						<TextField
-								fullWidth
-								error={false}
-								name={"fullname"}
-								label="Full Name"
-								defaultValue={fullName}
-								className={"mb-2"}
-								onChange={e=>setFullName(e.target.value)}
-								variant="outlined"
-								required
-								value={fullName}
-								error={error}
-							/>
-							<TextField
-								fullWidth
-								error={false}
-								id="outlined-error-helper-text"
-								label="Grade"
-								name={"grade"}
-								value={grade}
-								onChange={e=>setGrade(e.target.value)}
-								defaultValue={grade}
-								variant="outlined"
-								required
-								className={"mb-2"}
-								type="number"
-								InputProps={{ inputProps: { min: 1, max: 10 } }}
-								error={error}
-							/>
-							<Button
-								fullWidth
-								type={"submit"}
-								variant="contained"
-								className={"c-button mt-2 text-center"}
-								endIcon={<ArrowForwardIcon />}
-							>
-						Submit
-							</Button>
-							<Link to={"/"} className={'mt-4'}>Go back to home</Link>
-						</form>
+						<H1 style={Styles.heading} text="Edit Profile" />
+						<CInput
+							onChangeText={text => setFullName(text)}
+							value={fullName}
+							placeHolder={"Full Name"}
+						/>
+						<CInput
+							onChangeText={text => setGrade(text)}
+							value={grade}
+							placeHolder={"Grade"}
+						/>
+						<TouchableOpacity style={Styles.btn} onPress={handleSubmit}>
+							<Text style={Styles.btnText}>
+								Save
+								</Text>
+						</TouchableOpacity>
+						<TouchableOpacity><Text>Go back to home</Text></TouchableOpacity>
 					</>}
-			</Paper>
-			<Snackbar open={open} autoHideDuration={3000} onClose={()=>setOpen(false)}>
-				<>
-					{error !=="" && <Alert elevation={6} variant="filled" severity="warning">{error}</Alert>}
-					{msg !=="" && <Alert elevation={6} variant="filled" severity="success">{msg}</Alert>}
-				</>
-			</Snackbar>
-		</div>
+			</View>
+		</CIContainer>
 	);
 };
 

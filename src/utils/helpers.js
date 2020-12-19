@@ -25,3 +25,17 @@ export const convertDBSnapshoptToArrayOfObject = (snapshot) => {
 	});
 	return arr;
 };
+export const getArrayOfSubjectsAsLabeValueKeys = (data) => {
+	let sub = [];
+	data.map(it => {
+		sub.push({ id: it.id, label: it.name, value: it.id })
+	});
+	return sub;
+}
+export const getBackAsOriginalSubjectStructure = (subjects) => {
+	let sub = [];
+	subjects.map(it => {
+		sub.push({ id: it.value, name: it.label })
+	});
+	return sub;
+}

@@ -1,49 +1,50 @@
-import React, {useEffect, useState} from "react";
-import Paper from "@material-ui/core/Paper/Paper";
-import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
-import Button from "@material-ui/core/Button";
-import {auth, database, firestore} from "../../firebase";
-import Notifier from "react-desktop-notification";
-import {useDispatch, useSelector} from "react-redux";
-import {insertIntoAcceptedGigs, setAssignedUserOfHelperUser, updateHelpGig} from "../../Store/Actions/HelpActions";
-import {helpGigStatus, websiteLink} from "../../utils/Constants";
+import React, { useEffect, useState } from "react";
+import { auth, database, firestore } from "../../firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { insertIntoAcceptedGigs, setAssignedUserOfHelperUser, updateHelpGig } from "../../Store/Actions/HelpActions";
+import { helpGigStatus, websiteLink } from "../../utils/Constants";
+import CIContainer from "../../components/CIContainer";
+import H1 from "../../components/H1";
+import { View } from "react-native";
+import CenteredLoading from "../../components/CenteredLoading";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-const Request = ({onAccepted})=>{
+const Request = ({ onAccepted }) => {
 	const dispatch = useDispatch();
-	const [currentRequest,setCurrentRequest] = useState({});
-	const [requestUser,setRequestUser] = useState({});
-	const [loading,setLoading] = useState(false);
-	const stateProps = useSelector(({User})=>{
-		return {...User};
+	const [currentRequest, setCurrentRequest] = useState({});
+	const [requestUser, setRequestUser] = useState({});
+	const [loading, setLoading] = useState(false);
+	const stateProps = useSelector(({ User }) => {
+		return { ...User };
 	});
-	const { data,helperUserData } = stateProps;
-	useEffect(()=>{
-		if(helperUserData.hasOwnProperty('assignedUser') && helperUserData.assignedUser!=="") {
+	const { data, helperUserData } = stateProps;
+	useEffect(() => {
+		if (helperUserData.hasOwnProperty('assignedUser') && helperUserData.assignedUser !== "") {
 			setLoading(true);
 			database().ref("helpGigs").child(helperUserData.assignedUser).once("value").then(res => {
 				setCurrentRequest(res.val());
-				firestore().collection("users").where("id","==",helperUserData.assignedUser).get().then(res=>{
+				firestore().collection("users").where("id", "==", helperUserData.assignedUser).get().then(res => {
 					setRequestUser(res.docs[0].data());
-					Notifier.start(res.docs[0].data().fullName +" needs your help!","",websiteLink);
+					alert(res.docs[0].data().fullName + " needs your help!");
 					setLoading(false);
 				});
 			}
 			);
 		}
-	},[helperUserData.assignedUser]);
-	const handleCancel =()=>{
+	}, [helperUserData.assignedUser]);
+	const handleCancel = () => {
 		setLoading(true);
-		dispatch(updateHelpGig(helperUserData.assignedUser,{ status: helpGigStatus.ACTIVE},()=> {
-			dispatch(setAssignedUserOfHelperUser({assignedUser: ""}, () => {
+		dispatch(updateHelpGig(helperUserData.assignedUser, { status: helpGigStatus.ACTIVE }, () => {
+			dispatch(setAssignedUserOfHelperUser({ assignedUser: "" }, () => {
 				setLoading(false);
 			}));
 		}));
 	};
-	const handleAccept =()=>{
+	const handleAccept = () => {
 		setLoading(true);
-		dispatch(updateHelpGig(helperUserData.assignedUser,{ status: helpGigStatus.ASSIGNED,helperId: auth().currentUser.uid},()=> {
+		dispatch(updateHelpGig(helperUserData.assignedUser, { status: helpGigStatus.ASSIGNED, helperId: auth().currentUser.uid }, () => {
 			dispatch(insertIntoAcceptedGigs(helperUserData.assignedUser, () => {
-				dispatch(setAssignedUserOfHelperUser({assignedUser: ""}, () => {
+				dispatch(setAssignedUserOfHelperUser({ assignedUser: "" }, () => {
 					onAccepted();
 					setLoading(false);
 				}));
@@ -51,23 +52,31 @@ const Request = ({onAccepted})=>{
 		}));
 	};
 	return (
-		<div className={"container"} >
-			<h1>Hi, {data.fullName}</h1>
-			<Paper className={"d-flex flex-direction-row p-4 p-4"}>
+		<CIContainer>
+			<H1 text={`Hi, ${data.fullName}`} />
+			<View>
 				{loading ?
-					<CircularProgress size={30}/>
+					<CenteredLoading />
 					:
-					<div className={"d-flex flex-column align-items-center"}>
-						<h5>{requestUser.fullName} needs your help in {currentRequest.subjectName} of Grade {currentRequest.grade}.</h5>
-						<div className={"mt-4 mb-4"}>
-							<Button color={"primary"} onClick={handleAccept} >Accept</Button>
-							<Button color={"secondary"} onClick={handleCancel}>Decline</Button>
-						</div>
-					</div>
-				}
+					<View>
+						<Text>{requestUser.fullName} needs your help in {currentRequest.subjectName} of Grade {currentRequest.grade}.</Text>
+						<View>
+							<TouchableOpacity style={Styles.btn} onPress={handleAccept}>
+								<Text style={Styles.btnText}>
+									Accept
+							</Text>
+							</TouchableOpacity>
+							<TouchableOpacity style={Styles.btn} onPress={handleCancel}>
+								<Text style={Styles.btnText}>
+									Decline
+							</Text>
+							</TouchableOpacity>
 
-			</Paper>
-		</div>
+						</View>
+					</View>
+				}
+			</View>
+		</CIContainer>
 	);
 };
 

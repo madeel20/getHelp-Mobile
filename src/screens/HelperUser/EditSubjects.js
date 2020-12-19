@@ -1,103 +1,69 @@
-import React, {useEffect, useState} from "react";
-import Paper from "@material-ui/core/Paper";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
-import FormGroup from "@material-ui/core/FormGroup/FormGroup";
-import Button from "@material-ui/core/Button";
-import ArrowForwardIcon from "@material-ui/core/SvgIcon/SvgIcon";
-import {MappedElement} from "../../utils/helpers";
-import FormControlLabel from "@material-ui/core/FormControlLabel/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox/Checkbox";
-import {loadSubjects} from "../../Store/Actions/SubjectActions";
-import {useDispatch, useSelector} from "react-redux";
-import { updateProfileDetails} from "../../Store/Actions/UsersActions";
-import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
-import Snackbar from "@material-ui/core/Snackbar/Snackbar";
-import Alert from "@material-ui/lab/Alert/Alert";
-import {Link} from "react-router-dom";
-const EditSubjects = ()=>{
+import React, { useEffect, useState } from "react";
+import { MappedElement } from "../../utils/helpers";
+import { loadSubjects } from "../../Store/Actions/SubjectActions";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProfileDetails } from "../../Store/Actions/UsersActions";
+import CIContainer from "../../components/CIContainer";
+import { View } from "react-native";
+import Styles from "./styles";
+import H1 from "../../components/H1";
+import {MultipleSelectPicker} from 'react-native-multi-select-picker';
+import CenteredLoading from "../../components/CenteredLoading";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import {getArrayOfSubjectsAsLabeValueKeys,getBackAsOriginalSubjectStructure} from '../../utils/helpers'
+const EditSubjects = () => {
 	const dispatch = useDispatch();
-	const [error,setError] = useState("");
-	const [msg,setMsg] = useState("");
-	const [open,setOpen] = useState(false);
-	useEffect(()=>{
+	useEffect(() => {
 		dispatch(loadSubjects());
-	},[]);
-	const stateProps = useSelector(({Subjects,User})=>{
+	}, []);
+	const stateProps = useSelector(({ Subjects, User }) => {
 		return {
 			Subjects,
 			User
 		};
 	});
-	const {data,loading} = stateProps.Subjects;
-	const {updatingDetailsLoading} = stateProps.User;
-	const [subjects,setSubjects] = useState(stateProps.User.data.subjects || []);
-	const handleSubmit = (e)=>{
-		e.preventDefault();
+	const { data, loading } = stateProps.Subjects;
+	const { updatingDetailsLoading } = stateProps.User;
+	const [subjects, setSubjects] = useState(stateProps.User.data.subjects || []);
+
+	const handleSubmit = (e) => {
 		// if(subjects.length===0){
 		// 	setMsg("");
 		// 	setError("Please select at least one subject.");
 		// 	setOpen(true);
 		// 	return;
 		// }
-		dispatch(updateProfileDetails({subjects},()=>{
-			setError("");
-			setMsg("Subjects Updated!");
-			setOpen(true);
+		dispatch(updateProfileDetails({ subjects: getBackAsOriginalSubjectStructure(subjects) }, () => {
+			alert("Subjects Updated!");
 		}));
 	};
-	const handleChange =(e)=>{
-		const { name, value } = e.target;
-		if (e.target.checked) {
-			setSubjects(prevState => [...prevState, {id: value, name: name}]);
-		} else {
-			setSubjects(prevState => prevState.filter(it => it.id !== value));
-		}
-	};
-	const renderSubjects =()=>{
-		return <MappedElement data={data} renderElement={ (obj,index)=>{
-			return <FormControlLabel key={index}
-				control={<Checkbox onChange={handleChange} checked={subjects && subjects.find(it=>it.id === obj.id)?true:false} value={obj.id} name={obj.name} />}
-				label={String(obj.name).toUpperCase()}
-			/>;}
-		}/>;
-	};
 	return (
-		<div className={"container"}>
-			<Paper className={"p-4 d-flex flex-column justify-content-center align-items-center"}>
-				{loading || updatingDetailsLoading?
-					<CircularProgress  size={30}/>
+		<CIContainer>
+			<View style={Styles.innerContainer}>
+				<H1 style={Styles.heading} text="Edit Subjects" />
+				{loading || updatingDetailsLoading ?
+					<CenteredLoading size="large" />
 					:
 					<>
-						<h2 className={"c-h1"}> Edit Subjects </h2>
-						<form className={"p-4 d-flex flex-column justify-content-center align-items-center"} noValidate autoComplete="off" onSubmit={handleSubmit}>
-							<FormControl component="fieldset">
-								<FormLabel component="legend">Select the subjects you’d like to help in.</FormLabel>
-								<FormGroup>
-									{renderSubjects()}
-								</FormGroup>
-							</FormControl>
-							<Button
-								fullWidth
-								type={"submit"}
-								variant="contained"
-								className={"c-button"}
-								endIcon={<ArrowForwardIcon/>}
-							>
-							Save
-							</Button>
-							<Link to={"/"} className={'mt-4'}>Go back to home</Link>
-						</form>
+						<Text>Select the subjects you’d like to help in.</Text>
+						<MultipleSelectPicker
+							items={getArrayOfSubjectsAsLabeValueKeys(data)}
+							style={Styles.checkboxContainer}
+							onSelectionsChange={(ele) => {
+								setSubjects(ele);
+							}}
+							buttonStyle={Styles.checkboxSelected}
+							selectedItems={subjects}
+						/>
+						<TouchableOpacity style={Styles.btn} onPress={handleSubmit}>
+							<Text style={Styles.btnText}>
+								Save
+							</Text>
+						</TouchableOpacity>
 					</>
 				}
-				<Snackbar open={open} autoHideDuration={3000} onClose={()=>setOpen(false)}>
-					<>
-						{error !=="" && <Alert elevation={6} variant="filled" severity="warning">{error}</Alert>}
-						{msg !=="" && <Alert elevation={6} variant="filled" severity="success">{msg}</Alert>}
-					</>
-				</Snackbar>
-			</Paper>
-		</div>
+			</View>
+		</CIContainer>
 	);
 };
 

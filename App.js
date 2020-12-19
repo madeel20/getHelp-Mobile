@@ -7,6 +7,7 @@ import AuthStack from './src/stacks/AuthStack';
 import {auth} from './src/firebase/index'
 import {store} from "./src/Store";
 import NewUserStack from "./src/stacks/NewUserStack";
+import MainStack from './src/stacks/MainStack';
 const App = () => {
 	const [user, setUser] = useState(null);
 	const [initializing, setInitializing] = useState(true);
@@ -57,7 +58,7 @@ const App = () => {
 		return (
 			<Provider store={store}>
 				<NavigationContainer>
-				
+					<MainStack/>
 				</NavigationContainer>
 			</Provider>
 		);

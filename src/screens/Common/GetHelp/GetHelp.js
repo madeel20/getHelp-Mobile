@@ -6,7 +6,6 @@ import {helperStatus, helpGigStatus, websiteLink} from "../../../utils/Constants
 import {auth, database} from "../../../firebase";
 import {getHelpGig, updateHelperUserStatus} from "../../../Store/Actions/UsersActions";
 import HelpAccepted from "./HelpAccepted";
-import Notifier from "react-desktop-notification";
 const GetHelp = ()=> {
 	const dispatch = useDispatch();
 	const [isHelpRequestAssigned,setHelpRequestAssigned] = useState(false);
@@ -21,12 +20,12 @@ const GetHelp = ()=> {
 			setHelpRequestAssigned(true);
 		}
 		if(helpGig && helpGig.status === helpGigStatus.TIMEOUT && !isNotificationAlreadyShown.current){
-			Notifier.start("Sorry, No Helper is currently available! Try Again.","",websiteLink);
+			alert("Sorry, No Helper is currently available! Try Again.");
 			isNotificationAlreadyShown.current = true;
 		}
 	},[helpGig]);
 	useEffect(()=>{
-		database
+		database()
 			.ref("helpGigs").child(auth().currentUser.uid).on("value", (snapshot) => {
 				if(snapshot && snapshot.val() && Object.entries(snapshot.val()).length > 0) {
 					dispatch(getHelpGig(snapshot.val()));
