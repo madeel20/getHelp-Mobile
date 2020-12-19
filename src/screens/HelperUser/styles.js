@@ -6,13 +6,28 @@ const styles = StyleSheet.create({
         borderWidth:0.5,
         borderColor: 'black',
         borderRadius:5,
-        height:300,
         width:300,
         overflow:'hidden',
-        padding:15,
+        paddingVertical:10,
+        paddingHorizontal:30,
         display:'flex',
         alignItems:'center',
         justifyContent:'space-around'
+    },
+    subContainers:{
+        display:'flex',
+        flexDirection:'column'
+    },
+    subChildContainer:{
+        display:'flex',
+        justifyContent:'center',
+        alignItems:'center',
+        alignContent:'center',
+        borderRadius:2,
+        borderWidth:0.2,
+        borderColor:'grey',
+        padding:10,
+        marginVertical:5,
     },
     btn:{
         backgroundColor:theme.themeColor,
@@ -34,7 +49,9 @@ const styles = StyleSheet.create({
         backgroundColor:themeColor
     },
     paraText:{
-        fontSize:theme.pFontSize
+        fontSize:theme.pFontSize,
+        marginVertical:3,
+        alignSelf:'flex-start'
     },
     checkboxContainer:{ 
         width: 230 

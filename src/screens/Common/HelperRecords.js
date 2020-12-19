@@ -59,7 +59,7 @@ const HelperRecords = () => {
 											<DataTable.Cell >{obj.subjectName}</DataTable.Cell>
 											<DataTable.Cell >{obj.hasOwnProperty("thumbsUp") ? <>
 												{obj.thumbsUp && obj.thumbsUp === true ?
-													<Icon name="thumb_up:=" color="black" /> : <Icon name="thumb_down:=" color="black" />}</> : "--"}</DataTable.Cell>
+													<Icon name="thumb_up" color="black" /> : <Icon name="thumb_down:=" color="black" />}</> : "--"}</DataTable.Cell>
 										</DataTable.Row>
 									);
 								}} />
