@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import FirstStep from "../screens/NewUser/FirstStep";
 // import SecondStep from "../screens/NewUser/SecondStep";
-// import ThirdStep from "../screens/NewUser/ThirdStep";
-// import FourthStep from "../screens/NewUser/FourthStep";
+import ThirdStep from "../screens/NewUser/ThirdStep";
+import FourthStep from "../screens/NewUser/FourthStep";
 import {createStackNavigator} from '@react-navigation/stack';
 const RootStack = createStackNavigator();
 const NewUserStack = ({ onFinish }) => {
@@ -16,10 +16,10 @@ const NewUserStack = ({ onFinish }) => {
 				return <FirstStep onNext={onNext} />;
 			// case 1:
 			// 	return <SecondStep onFinish={onFinish} onNext={onNext} />;
-			// case 1:
-			// 	return <ThirdStep onNext={onNext} />;
-			// case 2:
-			// 	return <FourthStep onFinish={onFinish} onNext={onNext} />;
+			case 1:
+				return <ThirdStep onNext={onNext} />;
+			case 2:
+				return <FourthStep onFinish={onFinish} onNext={onNext} />;
 			default:
 				return null;
 		}

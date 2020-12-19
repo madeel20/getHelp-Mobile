@@ -20,9 +20,9 @@ const Request = ({onAccepted})=>{
 	useEffect(()=>{
 		if(helperUserData.hasOwnProperty('assignedUser') && helperUserData.assignedUser!=="") {
 			setLoading(true);
-			database.ref("helpGigs").child(helperUserData.assignedUser).once("value").then(res => {
+			database().ref("helpGigs").child(helperUserData.assignedUser).once("value").then(res => {
 				setCurrentRequest(res.val());
-				firestore.collection("users").where("id","==",helperUserData.assignedUser).get().then(res=>{
+				firestore().collection("users").where("id","==",helperUserData.assignedUser).get().then(res=>{
 					setRequestUser(res.docs[0].data());
 					Notifier.start(res.docs[0].data().fullName +" needs your help!","",websiteLink);
 					setLoading(false);

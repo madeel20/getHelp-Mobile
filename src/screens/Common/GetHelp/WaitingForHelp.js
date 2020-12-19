@@ -22,10 +22,10 @@ const WaitingForHelp =({onCancel})=>{
 	const {loading} = stateProps;
 	const handleCancel = async ()=>{
 		// check if any helper is waiting to accept the request .. then un assign him
-		let gig =await database.ref("helpGigs").child(auth().currentUser.uid).once("value");
+		let gig =await database().ref("helpGigs").child(auth().currentUser.uid).once("value");
 		gig = gig.val()?gig.val():{};
 		if(gig.lastHelperAssigned){
-			await database.ref("helpers").child(gig.lastHelperAssigned).update({
+			await database().ref("helpers").child(gig.lastHelperAssigned).update({
 				assignedUser: "",
 			});
 		}

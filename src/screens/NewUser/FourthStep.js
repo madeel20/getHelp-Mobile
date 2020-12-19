@@ -1,83 +1,64 @@
-import React, {useState} from "react";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import {auth, database} from "../../firebase/index";
-import Snackbar from "@material-ui/core/Snackbar";
-import Alert from "@material-ui/lab/Alert";
-import {useDispatch, useSelector} from "react-redux";
-import {insertDetails, setNewUserData} from "../../Store/Actions/UsersActions";
-import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
-import {GetHelp} from "../../Store/Constants/GetHelp";
-import {helperStatus, UserRoles} from "../../utils/Constants";
-const FourthStep = ({onNext,onFinish})=>{
+import React, { useState } from "react";
+import { auth, database } from "../../firebase/index";
+import { useDispatch, useSelector } from "react-redux";
+import { insertDetails, setNewUserData } from "../../Store/Actions/UsersActions";
+import { helperStatus, UserRoles } from "../../utils/Constants";
+import CenteredLoading from "../../components/CenteredLoading";
+import CIContainer from "../../components/CIContainer";
+import { Text, View } from "react-native";
+import Styles from "./styles";
+import H1 from "../../components/H1";
+import CInput from "../../components/CInput";
+import { TouchableOpacity } from "react-native-gesture-handler";
+const FourthStep = ({ onNext, onFinish }) => {
 	const dispatch = useDispatch();
-	const [meetLink,setLink] = useState("");
-	const [error,setError] = useState(false);
-	const [open,setOpen] = useState(false);
-	const stateProps = useSelector(({User})=>{
+	const [meetLink, setLink] = useState("");
+	const stateProps = useSelector(({ User }) => {
 		return {
 			...User
 		};
 	});
-	const {newData,loading} = stateProps;
-	const handleSubmit = (e)=>{
-		e.preventDefault();
-		if(meetLink===""){
-			setError("Please insert a link first.");
-			setOpen(true);
+	const { newData, loading } = stateProps;
+	const handleSubmit = (e) => {
+		if (meetLink === "") {
+			alert("Please insert a link first.");
 			return;
 		}
-		 dispatch(insertDetails({...newData,id: auth().currentUser.uid, email: auth().currentUser.email,  meetLink,role: UserRoles.HELPER_USER},()=>{
-			 database
-		 		 .ref("helpers").child(auth().currentUser.uid)
-				 .update({status: helperStatus.AVAILABLE});
-		        onFinish();
+		dispatch(insertDetails({ ...newData, id: auth().currentUser.uid, email: auth().currentUser.email, meetLink, role: UserRoles.HELPER_USER }, () => {
+			database()
+				.ref("helpers").child(auth().currentUser.uid)
+				.update({ status: helperStatus.AVAILABLE });
+			onFinish();
 		}));
 	};
 	return (
-		<div className="d-flex justify-content-center align-items-center c-h-100">
-			<div className={"auth-container"}>
-				<span className={"c-h1"}>Welcome</span>
-				<p> Let's setup you account. </p>
+		<CIContainer>
+			<View style={Styles.innerContainer}>
+				<H1 style={Styles.heading} text="Welcome" />
+				<Text style={Styles.paraText}> Let's setup you account. </Text>
 				{loading ?
-					<CircularProgress size={50}/>
+					<CenteredLoading size="large" />
 					:
-					<form noValidate autoComplete="off" onSubmit={handleSubmit}>
-						<p>Go to meet.google.com using the same Google Account you signed up with and get a Google Meet
-                            link. This will be the permanent link you use to host help sessions.</p>
-						<p>Paste your Google Meet link.</p>
-						<TextField
-							fullWidth
-							error={false}
-							name={"link"}
-							label="Link"
-							defaultValue={meetLink}
-							className={"mb-2"}
-							onChange={e => setLink(e.target.value)}
-							variant="outlined"
-							required
+					<>
+						<Text style={Styles.paraText}>Go to meet.google.com using the same Google Account you signed up with and get a Google Meet
+                            link. This will be the permanent link you use to host help sessions.</Text>
+						<Text>Paste your Google Meet link.</Text>
+
+						<CInput
+							onChangeText={text => setLink(text)}
 							value={meetLink}
-							error={error}
+							placeHolder={"Your google meet link"}
 						/>
-						<span className={'link-hint'}>Format: https:// your meet link</span>
-						<Button
-							fullWidth
-							type={"submit"}
-							variant="contained"
-							className={"c-button"}
-							// endIcon={<ArrowForwardIcon />}
-						>
-                            Finish
-						</Button>
-					</form>
+						<Text style={Styles.paraText}>Format: https:// your meet link</Text>
+						<TouchableOpacity style={Styles.btn} onPress={handleSubmit}>
+							<Text style={Styles.btnText}>
+								Finish
+							</Text>
+						</TouchableOpacity>
+					</>
 				}
-			</div>
-			<Snackbar open={open} autoHideDuration={3000} onClose={()=>setOpen(false)}>
-				<Alert elevation={6} variant="filled" severity="warning">{error}</Alert>
-			</Snackbar>
-
-
-		</div>
+			</View>
+		</CIContainer>
 	);
 };
 

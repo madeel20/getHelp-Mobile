@@ -18,7 +18,7 @@ const HelpAccepted =({helperId,onCancel})=>{
 	},[]);
 	useEffect(()=>{
 		setLoading(true);
-		firestore.collection("users").where("id","==",helperId).get().then(res=>{
+		firestore().collection("users").where("id","==",helperId).get().then(res=>{
 			if(res.docs.length>0){
 				setHelperUser(res.docs[0].data());
 				setLoading(false);

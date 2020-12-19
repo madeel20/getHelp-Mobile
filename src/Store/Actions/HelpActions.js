@@ -65,7 +65,7 @@ export const setAssignedUserOfHelperUser = (payload,CB) => dispatch => {
 };
 export const insertIntoAcceptedGigs = (gigId,CB) => dispatch => {
 	dispatch({type:GetHelp.INSERT_ACCEPTED_GIG,payload: {loading:true}});
-	 database.ref("helpGigs").child(gigId).once("value").then(async res=>{
+	 database().ref("helpGigs").child(gigId).once("value").then(async res=>{
 		 await  database
 			 .ref("acceptedGigs")
 			 .push({...res.val(), userId: gigId, acceptedTime: new Date().toUTCString()});
@@ -76,12 +76,12 @@ export const insertIntoAcceptedGigs = (gigId,CB) => dispatch => {
 };
 const findHelper=async ()=>{
 	try {
-		let helpGig = await database.ref("helpGigs").child(auth().currentUser.uid).once("value");
+		let helpGig = await database().ref("helpGigs").child(auth().currentUser.uid).once("value");
 		//get all the helpers data
-		let helpers = await firestore.collection("users").where("role", "==", UserRoles.HELPER_USER).get();
+		let helpers = await firestore().collection("users").where("role", "==", UserRoles.HELPER_USER).get();
 
 		// get all the helpers status and last Active related data
-		let getHelperStatus = await database.ref("helpers").once("value");
+		let getHelperStatus = await database().ref("helpers").once("value");
 
 		//convert into javascript array of objects
 		helpers = convertToArray(helpers.docs, false);
@@ -107,15 +107,15 @@ const findHelper=async ()=>{
 			let finalHelperUser = finalHelpersData[0];
 			// match the subjects with the gig subject
 			// assign the gig to the helper found
-			await database.ref("helpGigs").child(auth().currentUser.uid).update({
+			await database().ref("helpGigs").child(auth().currentUser.uid).update({
 				status: helpGigStatus.REQUESTED_TO_ASSIGN,
 				helpersAsked: [finalHelperUser.id],
 				lastHelperAssigned: finalHelperUser.id,
 				lastHelperAssignedTime: new Date().toUTCString()
 			});
 			// also update the helper data that a gig is requested for the helper
-			let helperData = await database.ref("helpers").child(finalHelperUser.id).once("value");
-			await database.ref("helpers").child(finalHelperUser.id).update({
+			let helperData = await database().ref("helpers").child(finalHelperUser.id).once("value");
+			await database().ref("helpers").child(finalHelperUser.id).update({
 				status: helperStatus.NOT_AVAILABLE,
 				assignedUser: auth().currentUser.uid,
 				assignedTime: new Date().toUTCString(),

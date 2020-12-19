@@ -39,7 +39,7 @@ export const checkIfItsNewUser = async () => {
 
 // firestore helpers
 export const getCollection = async (collection) => {
-	return await firestore
+	return await firestore()
 		.collection(collection)
 		.get()
 		.then((res) => {
@@ -51,7 +51,7 @@ export const getCollection = async (collection) => {
 		});
 };
 export const insertToFirestore = async (data, collection, CB) => {
-	await firestore
+	await firestore()
 		.collection(collection)
 		.add(data)
 		.then((res) => {
@@ -63,11 +63,11 @@ export const insertToFirestore = async (data, collection, CB) => {
 		});
 };
 export const  updateDataInFireStoreDocumentByFieldName = async (fieldName,fieldValue, collection,data, CB) => {
-	await firestore
+	await firestore()
 		.collection(collection)
 		.where(fieldName,"==",fieldValue).get().then(res=>{
 			if(res.docs.length>0) {
-				firestore.collection(collection).doc(res.docs[0].id).update(data).then((res)=>{
+				firestore().collection(collection).doc(res.docs[0].id).update(data).then((res)=>{
 					CB && CB();
 					return res ;
 				});
@@ -86,7 +86,7 @@ export const  updateDataInFireStoreDocumentByFieldName = async (fieldName,fieldV
 
 // database helpers
 export const insertIntoDatabaseRef = async (ref, data, CB) => {
-	await database
+	await database()
 		.ref(ref).child()
 		.push(data)
 		.then((res) => {

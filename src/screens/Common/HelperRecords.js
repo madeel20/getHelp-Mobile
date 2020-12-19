@@ -30,11 +30,11 @@ const HelperRecords = ()=>{
 	const [users,setUsers] = useState([]);
 	const [loading,setLoading] = useState(true);
 	useEffect(()=>{
-		database.ref("acceptedGigs").once("value").then((snap)=>{
+		database().ref("acceptedGigs").once("value").then((snap)=>{
 			let res = convertDBSnapshoptToArrayOfObject(snap);
 			if(data.role === UserRoles.HELPER_USER){setRecords(res.filter(it=>it.helperId === auth().currentUser.uid));}
 			else {setRecords(res.filter(it=>it.userId === auth().currentUser.uid));}
-			firestore.collection("users").get().then((res)=>{
+			firestore().collection("users").get().then((res)=>{
 				setUsers(convertToArray(res.docs,false));
 				setLoading(false);
 			});

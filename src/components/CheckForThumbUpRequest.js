@@ -16,14 +16,14 @@ const CheckForThumbsUpRequest = ()=>{
 	const [loading,setLoading] = useState(false);
 	useEffect(()=>{
 	   intervalObj.current =  setInterval(()=>
-			database.ref("acceptedGigs").once("value").then((snap)=>{
+			database().ref("acceptedGigs").once("value").then((snap)=>{
 				let res = convertDBSnapshoptToArrayOfObject(snap);
 				// filter gig where user id is of current user
 				res = res.filter(it=>it.userId===auth().currentUser.uid);
 				// check if there any gig whose thump up is not set ... and the time is greater then 2 min
 				res = res.filter(it=>!it.hasOwnProperty("thumbsUp") && ((new Date().getTime() - new Date(it.acceptedTime).getTime())/1000)> 3600 );
 				if(res.length>0){
-					firestore.collection("users").where("id","==",res[0].helperId).get().then(r=>{
+					firestore().collection("users").where("id","==",res[0].helperId).get().then(r=>{
 						if(r.docs.length>0){
 							setHelperUser(convertToArray(r.docs)[0]);
 							Notifier.start("Would you like to give your helper "+ convertToArray(r.docs)[0].fullName +" a thumbs-up?","",websiteLink);
@@ -40,7 +40,7 @@ const CheckForThumbsUpRequest = ()=>{
 	},[intervalFlag]);
 	const handleNo = ()=>{
 		setLoading(true);
-		database.ref("acceptedGigs").child(currentGig.id).update({thumbsUp:false}).then(()=>{
+		database().ref("acceptedGigs").child(currentGig.id).update({thumbsUp:false}).then(()=>{
 			setLoading(false);
 			setOpen(false);
 			// start listener again
@@ -49,7 +49,7 @@ const CheckForThumbsUpRequest = ()=>{
 	};
 	const handleYes = ()=>{
 		setLoading(true);
-		database.ref("acceptedGigs").child(currentGig.id).update({thumbsUp:true}).then(()=>{
+		database().ref("acceptedGigs").child(currentGig.id).update({thumbsUp:true}).then(()=>{
 			setLoading(false);
 			setOpen(false);
 			// start listener again

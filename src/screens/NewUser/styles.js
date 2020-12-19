@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
         borderWidth:0.5,
         borderColor: 'black',
         borderRadius:5,
-        height:250,
+        height:300,
         width:300,
         overflow:'hidden',
         padding:15,
@@ -35,6 +35,15 @@ const styles = StyleSheet.create({
     },
     paraText:{
         fontSize:theme.pFontSize
+    },
+    checkboxContainer:{ 
+        width: 230 
+    },
+    checkbox:{
+        height: 20, width: 20
+    },
+    checkboxSelected:{
+        backgroundColor: themeColor,
     }
 })
 
