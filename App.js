@@ -1,20 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import {
-	SafeAreaView,
-	StyleSheet,
-	ScrollView,
-	View,
-	Text,
-	StatusBar,
-	ActivityIndicator
-} from 'react-native';
+import {Provider} from "react-redux";
 import CenteredLoading from './src/components/CenteredLoading';
 import { NavigationContainer } from '@react-navigation/native';
 import { checkIfItsNewUser } from "./src/firebase/helpers";
 import AuthStack from './src/stacks/AuthStack';
 import {auth} from './src/firebase/index'
+import {store} from "./src/Store";
+import NewUserStack from "./src/stacks/NewUserStack";
 const App = () => {
-	const [user, setuser] = useState(null);
+	const [user, setUser] = useState(null);
 	const [initializing, setInitializing] = useState(true);
 	const [isLoading, setLoading] = useState(true);
 	const [isNewUser, setIsNewUser] = useState(null);
@@ -31,11 +25,7 @@ const App = () => {
 	}, []);
 	useEffect(() => {
 		if (user) {
-			const { displayName, email } = user;
-			setuser({
-				displayName,
-				email,
-			});
+
 			checkIfItsNewUser().then(isNewUser => {
 				if (isNewUser === null) {
 					setIsNewUser(null);
@@ -54,7 +44,6 @@ const App = () => {
 
 		}
 		else {
-			setuser(null);
 			setLoading(false);
 		}
 	}, [user])
@@ -68,7 +57,7 @@ const App = () => {
 		return (
 			<Provider store={store}>
 				<NavigationContainer>
-					<MainStack />
+				
 				</NavigationContainer>
 			</Provider>
 		);

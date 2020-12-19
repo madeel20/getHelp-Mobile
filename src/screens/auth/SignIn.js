@@ -3,6 +3,7 @@ import CIContainer from '../../components/CIContainer';
 import H1 from "../../components/H1";
 import { GoogleSignin } from '@react-native-community/google-signin';
 import { Image,View,TouchableOpacity,Text } from "react-native";
+import auth from '@react-native-firebase/auth';
 import Styles from './styles';
 GoogleSignin.configure({
 	webClientId: "1081308066793-ici0vq1lthpd26rkem1bf5ebgll5fh4f.apps.googleusercontent.com",
@@ -11,7 +12,6 @@ export default function SignIn({navigation}) {
 	const onGoogleButtonPress=async ()=> {
 		// Get the users ID token
 		const { idToken } = await GoogleSignin.signIn();
-	  
 		// Create a Google credential with the token
 		const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 	  

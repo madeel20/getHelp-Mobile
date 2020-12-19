@@ -26,7 +26,7 @@ export const insertDetails = (payload,CB) => dispatch => {
 export const updateProfileDetails = (payload,CB) => dispatch => {
 	dispatch({type:Users.UPDATING_PROFILE_DETAILS,payload: {updatingDetailsLoading:true}});
 	updateDataInFireStoreDocumentByFieldName("email",
-		auth.currentUser.email,
+		auth().currentUser.email,
 		"users",
 		payload,
 		async () => {
@@ -43,7 +43,7 @@ export const updateProfileDetails = (payload,CB) => dispatch => {
 export const updateMeetingLink = (payload,CB) => dispatch => {
 	dispatch({type:Users.UPDATING_MEETING_LINK,payload: {meetingLoading:true}});
 	updateDataInFireStoreDocumentByFieldName("email",
-		auth.currentUser.email,
+		auth().currentUser.email,
 		"users",
 		payload
 		,
@@ -59,9 +59,9 @@ export const updateMeetingLink = (payload,CB) => dispatch => {
 
 };
 export const updateHelperUserStatus = (payload,CB) => dispatch =>{
-	if( auth && auth.currentUser && auth.currentUser.uid) {
+	if( auth && auth().currentUser && auth().currentUser.uid) {
 		database
-			.ref("helpers").child(auth.currentUser.uid)
+			.ref("helpers").child(auth().currentUser.uid)
 			.update(payload)
 			.then((res) => {
 				dispatch({type: Users.UPDATE_HELPER_USER_STATUS, payload: payload.status});

@@ -18,7 +18,7 @@ const HelperUserStack = ()=>{
 	},[]);
 	const updateLastActive = ()=>{
 		database
-			.ref("helpers").child(auth.currentUser.uid)
+			.ref("helpers").child(auth().currentUser.uid)
 			.update({lastActive: new Date().toUTCString()})
 	}
 	return (

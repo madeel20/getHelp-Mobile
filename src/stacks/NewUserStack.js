@@ -1,36 +1,34 @@
-import React, {useState} from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import FirstStep from "../pages/NewUser/FirstStep";
-import SecondStep from "../pages/NewUser/SecondStep";
-import ThirdStep from "../pages/NewUser/ThirdStep";
-import FourthStep from "../pages/NewUser/FourthStep";
-const NewUserStack = ({onFinish})=>{
-	const [step,setStep] = useState(0);
-	const onNext =()=>{
-		setStep(prevState=>prevState+1);
+import React, { useState } from "react";
+import FirstStep from "../screens/NewUser/FirstStep";
+// import SecondStep from "../screens/NewUser/SecondStep";
+// import ThirdStep from "../screens/NewUser/ThirdStep";
+// import FourthStep from "../screens/NewUser/FourthStep";
+import {createStackNavigator} from '@react-navigation/stack';
+const RootStack = createStackNavigator();
+const NewUserStack = ({ onFinish }) => {
+	const [step, setStep] = useState(0);
+	const onNext = () => {
+		setStep(prevState => prevState + 1);
 	};
-	const getCurrentStep = index =>{
+	const getCurrentStep = index => {
 		switch (index) {
-		case 0:
-			return  <FirstStep onNext={onNext} />;
-		// case 1:
-		// 	return <SecondStep onFinish={onFinish} onNext={onNext} />;
-		case 1:
-			return <ThirdStep onNext={onNext} />;
-		case 2:
-			return <FourthStep onFinish={onFinish} onNext={onNext} />;
-		default:
-			return null;
+			case 0:
+				return <FirstStep onNext={onNext} />;
+			// case 1:
+			// 	return <SecondStep onFinish={onFinish} onNext={onNext} />;
+			// case 1:
+			// 	return <ThirdStep onNext={onNext} />;
+			// case 2:
+			// 	return <FourthStep onFinish={onFinish} onNext={onNext} />;
+			default:
+				return null;
 		}
 	};
 	return (
-		<Router>
-			<Switch>
-				<Route path="/">
-					{getCurrentStep(step)}
-				</Route>
-			</Switch>
-		</Router>
+		<RootStack.Navigator
+			screenOptions={{ headerShown: false }}>
+			<RootStack.Screen name="SignIn" component={() =>  getCurrentStep(step)} />
+		</RootStack.Navigator>
 	);
 };
 

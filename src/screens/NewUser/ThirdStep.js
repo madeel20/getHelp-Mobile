@@ -13,6 +13,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import {MappedElement} from "../../utils/helpers";
 import {loadSubjects} from "../../Store/Actions/SubjectActions";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
+import CenteredLoading from "../../components/CenteredLoading";
 const ThirdStep = ({onNext})=>{
 	const dispatch = useDispatch();
 	const [subjects,setSubjects] = useState([]);
@@ -54,12 +55,12 @@ const ThirdStep = ({onNext})=>{
 		}/>;
 	};
 	return (
-		<div className="d-flex justify-content-center align-items-center c-h-100">
-			<div className={"auth-container"}>
-				<span className={"c-h1"}>Welcome</span>
-				<p> Let's setup you account. </p>
+		<CIContainer>
+		<View style={Styles.innerContainer}>
+			<H1 style={Styles.heading}>Welcome</H1>
+			<Text style={Styles.paraText}> Let's setup you account. </Text>
 				{loading ?
-					<CircularProgress  size={50}/>
+					<CenteredLoading size="large" />
 					:
 					<form noValidate autoComplete="off" onSubmit={handleSubmit}>
 						<FormControl component="fieldset">
@@ -79,14 +80,9 @@ const ThirdStep = ({onNext})=>{
 						</Button>
 					</form>
 				}
-			</div>
-			<Snackbar open={open} autoHideDuration={3000} onClose={()=>setOpen(false)}>
-				<Alert elevation={6} variant="filled" severity="warning">{error}</Alert>
-			</Snackbar>
-
-
-		</div>
-	);
+		</View>
+		</CIContainer>
+		);
 };
 
 export default ThirdStep;

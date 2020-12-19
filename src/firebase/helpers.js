@@ -20,7 +20,7 @@ export const logOut = (CB) => {
 export const checkIfItsNewUser = async () => {
 	return await firestore()
 		.collection("users")
-		.where("email", "==", auth.currentUser.email)
+		.where("email", "==", auth().currentUser.email)
 		.get()
 		.then(async (res) => {
 			if(res.docs.length >0){

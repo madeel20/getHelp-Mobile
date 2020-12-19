@@ -19,7 +19,7 @@ const CheckForThumbsUpRequest = ()=>{
 			database.ref("acceptedGigs").once("value").then((snap)=>{
 				let res = convertDBSnapshoptToArrayOfObject(snap);
 				// filter gig where user id is of current user
-				res = res.filter(it=>it.userId===auth.currentUser.uid);
+				res = res.filter(it=>it.userId===auth().currentUser.uid);
 				// check if there any gig whose thump up is not set ... and the time is greater then 2 min
 				res = res.filter(it=>!it.hasOwnProperty("thumbsUp") && ((new Date().getTime() - new Date(it.acceptedTime).getTime())/1000)> 3600 );
 				if(res.length>0){

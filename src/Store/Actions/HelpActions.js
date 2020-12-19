@@ -6,7 +6,7 @@ import {helperStatus, helpGigStatus, UserRoles} from "../../utils/Constants";
 export const insertHelp = (payload,CB) => dispatch => {
 	dispatch({type:GetHelp.INSERTING_HELP,payload: {loading:true}});
 	database
-		.ref("helpGigs").child(auth.currentUser.uid)
+		.ref("helpGigs").child(auth().currentUser.uid)
 		.update(payload)
 		.then(async () => {
 			dispatch({type:GetHelp.HELP_INSERTED,payload: {loading:false}});
@@ -24,7 +24,7 @@ export const insertHelp = (payload,CB) => dispatch => {
 export const updateHelpStatus = (payload,CB) => dispatch => {
 	dispatch({type:GetHelp.CANCEL_HELP,payload: {loading:true}});
 	database
-		.ref("helpGigs").child(auth.currentUser.uid)
+		.ref("helpGigs").child(auth().currentUser.uid)
 		.update(payload)
 		.then(() => {
 			dispatch({type:GetHelp.CANCEL_HELP,payload: {loading:false}});
@@ -53,7 +53,7 @@ export const updateHelpGig = (gidId,payload,CB) => dispatch => {
 };
 export const setAssignedUserOfHelperUser = (payload,CB) => dispatch => {
 	database
-		.ref("helpers").child(auth.currentUser.uid)
+		.ref("helpers").child(auth().currentUser.uid)
 		.update(payload)
 		.then(() => {
 			CB && CB();
@@ -76,7 +76,7 @@ export const insertIntoAcceptedGigs = (gigId,CB) => dispatch => {
 };
 const findHelper=async ()=>{
 	try {
-		let helpGig = await database.ref("helpGigs").child(auth.currentUser.uid).once("value");
+		let helpGig = await database.ref("helpGigs").child(auth().currentUser.uid).once("value");
 		//get all the helpers data
 		let helpers = await firestore.collection("users").where("role", "==", UserRoles.HELPER_USER).get();
 
@@ -107,7 +107,7 @@ const findHelper=async ()=>{
 			let finalHelperUser = finalHelpersData[0];
 			// match the subjects with the gig subject
 			// assign the gig to the helper found
-			await database.ref("helpGigs").child(auth.currentUser.uid).update({
+			await database.ref("helpGigs").child(auth().currentUser.uid).update({
 				status: helpGigStatus.REQUESTED_TO_ASSIGN,
 				helpersAsked: [finalHelperUser.id],
 				lastHelperAssigned: finalHelperUser.id,
@@ -117,10 +117,10 @@ const findHelper=async ()=>{
 			let helperData = await database.ref("helpers").child(finalHelperUser.id).once("value");
 			await database.ref("helpers").child(finalHelperUser.id).update({
 				status: helperStatus.NOT_AVAILABLE,
-				assignedUser: auth.currentUser.uid,
+				assignedUser: auth().currentUser.uid,
 				assignedTime: new Date().toUTCString(),
 				requestedToAssign: [...helperData.val().requestedToAssign || [], {
-					userId: auth.currentUser.uid,
+					userId: auth().currentUser.uid,
 					dateTime: new Date().toUTCString()
 				}],
 			});

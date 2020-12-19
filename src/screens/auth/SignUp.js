@@ -4,6 +4,7 @@ import { GoogleSignin } from '@react-native-community/google-signin';
 import H1 from "../../components/H1";
 import CIContainer from "../../components/CIContainer";
 import { Button, Image, Text, TouchableOpacity, View } from "react-native";
+import auth from '@react-native-firebase/auth';
 import Styles from './styles';
 GoogleSignin.configure({
 	webClientId: "1081308066793-ici0vq1lthpd26rkem1bf5ebgll5fh4f.apps.googleusercontent.com",

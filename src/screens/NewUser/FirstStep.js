@@ -1,80 +1,44 @@
-import React, {useState} from "react";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
-import Snackbar from "@material-ui/core/Snackbar";
-import Alert from "@material-ui/lab/Alert";
-import {useDispatch} from "react-redux";
-import {setNewUserData} from "../../Store/Actions/UsersActions";
-const FirstStep = ({onNext})=>{
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setNewUserData } from "../../Store/Actions/UsersActions";
+import CIContainer from "../../components/CIContainer";
+import { Text, TextInput, View } from "react-native";
+import CInput from '../../components/CInput'
+import Styles from "./styles";
+import H1 from "../../components/H1";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import NumericInput from 'react-native-numeric-input'
+const FirstStep = ({ onNext }) => {
 	const dispatch = useDispatch();
-	const [fullName,setFullName] = useState("");
-	const [grade,setGrade] = useState("");
-	const [error,setError] = useState(false);
-	const [open,setOpen] = useState(false);
-	const handleSubmit = (e)=>{
-		e.preventDefault();
-		if(fullName==="" || grade === ""){
-			setError("Please fill all the fields.");
-			setOpen(true);
+	const [fullName, setFullName] = useState("");
+	const [grade, setGrade] = useState("");
+	const handleSubmit = (e) => {
+		if (fullName === "" || grade === "") {
+			alert("Please fill all the fields.");
 			return;
 		}
-		if(parseInt(grade)>10){ setError("Invalid Grade!"); setOpen(true); return;  }
-		dispatch(setNewUserData({fullName,grade}));
+		if (parseInt(grade) > 10) { alert("Invalid Grade!"); return; }
+		dispatch(setNewUserData({ fullName, grade }));
 		onNext();
 	};
 	return (
-		<div className="d-flex justify-content-center align-items-center c-h-100">
-			<div className={"auth-container"}>
-				<span className={"c-h1"}>Welcome</span>
-				<p> Let's setup you account. </p>
-				<form noValidate autoComplete="off" onSubmit={handleSubmit}>
-					<TextField
-						fullWidth
-						error={false}
-						name={"fullname"}
-						label="Full Name"
-						defaultValue={fullName}
-						className={"mb-2"}
-						onChange={e=>setFullName(e.target.value)}
-						variant="outlined"
-						required
-						value={fullName}
-						error={error}
-					/>
-					<TextField
-						fullWidth
-						error={false}
-						id="outlined-error-helper-text"
-						label="Grade"
-						name={"grade"}
-						value={grade}
-						onChange={e=>setGrade(e.target.value)}
-						defaultValue={grade}
-						variant="outlined"
-						required
-						className={"mb-2"}
-						type="number"
-						InputProps={{ inputProps: { min: 1, max: 10 } }}
-						error={error}
-					/>
-					<Button
-						fullWidth
-						type={"submit"}
-						variant="contained"
-						className={"c-button"}
-						endIcon={<ArrowForwardIcon />}
-					>
+		<CIContainer>
+			<View style={Styles.innerContainer}>
+				<H1 style={Styles.heading} text="Welcome" />
+				<Text style={Styles.paraText}> Let's setup you account. </Text>
+				<CInput
+					onChangeText={text => setFullName(text)}
+					value={fullName}
+					placeHolder={"Full Name"}
+				/>
+				<NumericInput iconStyle={Styles.arrowIcons} type='up-down' value={grade} onChange={value => setGrade(value)} minValue={1} maxValue={10} />
+				<TouchableOpacity style={Styles.btn} onPress={handleSubmit}>
+					<Text style={Styles.btnText}>
 						Next
-					</Button>
-				</form>
-			</div>
-			<Snackbar open={open} autoHideDuration={3000} onClose={()=>setOpen(false)}>
-				<Alert elevation={6} variant="filled" severity="warning">{error}</Alert>
-			</Snackbar>
-
-
-		</div>
+					</Text>
+				</TouchableOpacity>
+			</View>
+		</CIContainer>
 	);
 };
 

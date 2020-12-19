@@ -27,9 +27,9 @@ const FourthStep = ({onNext,onFinish})=>{
 			setOpen(true);
 			return;
 		}
-		 dispatch(insertDetails({...newData,id: auth.currentUser.uid, email: auth.currentUser.email,  meetLink,role: UserRoles.HELPER_USER},()=>{
+		 dispatch(insertDetails({...newData,id: auth().currentUser.uid, email: auth().currentUser.email,  meetLink,role: UserRoles.HELPER_USER},()=>{
 			 database
-		 		 .ref("helpers").child(auth.currentUser.uid)
+		 		 .ref("helpers").child(auth().currentUser.uid)
 				 .update({status: helperStatus.AVAILABLE});
 		        onFinish();
 		}));

@@ -27,7 +27,7 @@ const SecondStep = ({onNext,onFinish})=>{
 			onNext();
 		}
 		else {
-			dispatch(insertDetails({...newData,id: auth.currentUser.uid, email: auth.currentUser.email,role},()=>{
+			dispatch(insertDetails({...newData,id: auth().currentUser.uid, email: auth().currentUser.email,role},()=>{
 				onFinish();
 			}));
 		}
