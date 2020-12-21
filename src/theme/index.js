@@ -1,4 +1,5 @@
 export const h1FontSize = 25;
+export const h2FontSize=20;
 export const pFontSize = 10;
 export const textPadding=5;
 export const headingColor= 'black';
@@ -10,5 +11,6 @@ export default {
     textPadding,
     headingColor,
     pFontSize,
-    themeColor
+    themeColor,
+    h2FontSize
 }

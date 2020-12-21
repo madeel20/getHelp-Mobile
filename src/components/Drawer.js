@@ -21,12 +21,6 @@ import {useSelector} from 'react-redux';
         alignItems: 'stretch',
         overflow: 'hidden',
       }}>
-      <View style={{justifyContent: 'center', alignContent: 'center'}}>
-        <View style={styles.info}>
-          <Title style={styles.title}>{fullName}</Title>
-          <Caption style={styles.caption}>{grade}</Caption>
-        </View>
-      </View>
       <DrawerContentScrollView
         {...props}
         style={{flex: 1, marginTop: -20, bottom: 0}}>
@@ -46,7 +40,7 @@ import {useSelector} from 'react-redux';
               icon={({size}) => (
                 <Icon name="notebook-outline" color="#B41116" size={size} />
               )}
-              label="Menus"
+              label="Edit Subjects"
               labelStyle={styles.labelstyle}
               onPress={() => {
                 props.navigation.navigate('Menu');
@@ -129,6 +123,12 @@ import {useSelector} from 'react-redux';
           />
         </View>
       </DrawerContentScrollView>
+      <View style={{justifyContent: 'center', alignContent: 'center'}}>
+        <View style={styles.info}>
+          <Title style={styles.title}>{fullName}</Title>
+          <Caption style={styles.caption}>{grade}</Caption>
+        </View>
+      </View>
     </View>
   );
 }
@@ -160,14 +160,14 @@ const styles = StyleSheet.create({
     // marginTop: 3,
     fontFamily: 'Montserrat-Bold',
     lineHeight: 22,
-    color: 'white',
+    color: 'black',
     alignSelf: 'center',
   },
   caption: {
     fontSize: 18,
     lineHeight: 18,
     fontFamily: 'Montserrat-Bold',
-    color: 'white',
+    color: 'black',
     alignSelf: 'center',
   },
   labelstyle: {
