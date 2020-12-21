@@ -31,7 +31,6 @@ const WaitingForHelp = ({ onCancel }) => {
 					assignedUser: "",
 				});
 			}
-			console.log(dispatch,updateHelpStatus,{ status: helpGigStatus.CANCELLED, lastHelperAssigned: "", helpersAsked: [], helperId: "", dateTime: "" })
 			dispatch(updateHelpStatus({ status: helpGigStatus.CANCELLED, lastHelperAssigned: "", helpersAsked: [], helperId: "", dateTime: "" }, () => {
 				onCancel();
 			}));

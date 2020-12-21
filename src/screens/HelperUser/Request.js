@@ -5,9 +5,12 @@ import { insertIntoAcceptedGigs, setAssignedUserOfHelperUser, updateHelpGig } fr
 import { helpGigStatus, websiteLink } from "../../utils/Constants";
 import CIContainer from "../../components/CIContainer";
 import H1 from "../../components/H1";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import CenteredLoading from "../../components/CenteredLoading";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import CLayout from "../../components/CLayout";
+import Styles from "./styles";
+import { themeColor } from "../../theme";
 
 const Request = ({ onAccepted }) => {
 	const dispatch = useDispatch();
@@ -52,13 +55,13 @@ const Request = ({ onAccepted }) => {
 		}));
 	};
 	return (
-		<CIContainer>
-			<H1 text={`Hi, ${data.fullName}`} />
-			<View>
+		<CLayout>
+			<View style={Styles.innerContainer}>
+				<H1 text={`Hi, ${data.fullName}`} />
 				{loading ?
 					<CenteredLoading />
 					:
-					<View>
+					<>
 						<Text>{requestUser.fullName} needs your help in {currentRequest.subjectName} of Grade {currentRequest.grade}.</Text>
 						<View>
 							<TouchableOpacity style={Styles.btn} onPress={handleAccept}>
@@ -66,17 +69,17 @@ const Request = ({ onAccepted }) => {
 									Accept
 							</Text>
 							</TouchableOpacity>
-							<TouchableOpacity style={Styles.btn} onPress={handleCancel}>
-								<Text style={Styles.btnText}>
+							<TouchableOpacity style={[Styles.btn, { marginTop: 10, backgroundColor: 'white', borderColor: themeColor }]} onPress={handleCancel}>
+								<Text style={[Styles.btnText, { color: themeColor }]}>
 									Decline
 							</Text>
 							</TouchableOpacity>
 
 						</View>
-					</View>
+					</>
 				}
 			</View>
-		</CIContainer>
+		</CLayout>
 	);
 };
 

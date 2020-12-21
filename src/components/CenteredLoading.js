@@ -4,7 +4,7 @@ import theme from '../theme';
 function CenteredLoading(props) {
   return (
     <View style={styles.conatiner}>
-      <ActivityIndicator style={{marginTop:'50%'}} size={props.size} color={theme.themeColor} />
+      <ActivityIndicator style={{marginTop:'0%'}} size={props.size} color={theme.themeColor} />
     </View>
   );
 }

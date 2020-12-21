@@ -25,7 +25,6 @@ const HelperRecords = () => {
 			let res = await convertDBSnapshoptToArrayOfObject(snap);
 			if (data.role === UserRoles.HELPER_USER) { setRecords(res.filter(it => it.helperId === auth().currentUser.uid)); }
 			else { setRecords(res.filter(it => it.userId === auth().currentUser.uid)); }
-			console.log(res.filter(it => it.helperId === auth().currentUser.uid))
 			setLoading(false); 
 		});
 		 firestore().collection("users").get().then((res) => {

@@ -25,7 +25,7 @@ const EditSubjects = ({navigation}) => {
 	});
 	const { data, loading } = stateProps.Subjects;
 	const { updatingDetailsLoading } = stateProps.User;
-	const [subjects, setSubjects] = useState(stateProps.User.data.subjects || []);
+	const [subjects, setSubjects] = useState(getArrayOfSubjectsAsLabeValueKeys(stateProps.User.data.subjects) || []);
 
 	const handleSubmit = (e) => {
 		// if(subjects.length===0){
