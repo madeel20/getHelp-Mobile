@@ -6,6 +6,7 @@ import {helperStatus, helpGigStatus, websiteLink} from "../../../utils/Constants
 import {auth, database} from "../../../firebase";
 import {getHelpGig, updateHelperUserStatus} from "../../../Store/Actions/UsersActions";
 import HelpAccepted from "./HelpAccepted";
+import CLayout from "../../../components/CLayout";
 const GetHelp = ()=> {
 	const dispatch = useDispatch();
 	const [isHelpRequestAssigned,setHelpRequestAssigned] = useState(false);
@@ -33,13 +34,13 @@ const GetHelp = ()=> {
 			});
 	},[]);
 	if(helpGig && helpGig.status === helpGigStatus.ASSIGNED && ((new Date().getTime() - new Date(helpGig.dateTime).getTime())/1000) < 900 ){
-		return <HelpAccepted helperId={helpGig.helperId}  onCancel={()=>setHelpRequestAssigned(false)} />;
+		return <CLayout><HelpAccepted helperId={helpGig.helperId}  onCancel={()=>setHelpRequestAssigned(false)} /></CLayout>;
 	}
 	if(isHelpRequestAssigned  && helpGig && (helpGig.status === helpGigStatus.ACTIVE ||helpGig.status === helpGigStatus.REQUESTED_TO_ASSIGN  )){
-		return <WaitingForHelp onCancel={()=>setHelpRequestAssigned(false)} />;
+		return <CLayout><WaitingForHelp onCancel={()=>setHelpRequestAssigned(false)} /></CLayout>;
 	}
 	else {
-		return <RequestHelp onRequest={()=>{setHelpRequestAssigned(true); }} />;
+		return <CLayout><RequestHelp onRequest={()=>{setHelpRequestAssigned(true); }} /></CLayout>;
 	}
 };
 export default GetHelp;

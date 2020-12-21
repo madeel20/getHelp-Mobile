@@ -8,7 +8,10 @@ import {getArrayOfSubjectsAsLabeValueKeys} from '../../../utils/helpers'
 import CIContainer from "../../../components/CIContainer";
 import Styles from "./styles";
 import {MultipleSelectPicker} from 'react-native-multi-select-picker';
-import { View } from "react-native";
+import { View,Text } from "react-native";
+import CenteredLoading from "../../../components/CenteredLoading";
+import H1 from "../../../components/H1";
+import { TouchableOpacity } from "react-native-gesture-handler";
 const RequestHelp =({onRequest})=>{
 	const dispatch = useDispatch();
 	useEffect(()=>{
@@ -22,28 +25,35 @@ const RequestHelp =({onRequest})=>{
 	});
 	const {data} = stateProps.Subjects;
 	const {loading} = stateProps.GetHelp;
-	const [subject,setSubject] = useState(  "");
+	const [subject,setSubject] = useState(  []);
 	const handleSubmit = (e)=>{
-		if(subject===""){
+		if(subject.length===0){
 			alert("Select a Subject first!");
 			return;
 		}
+		console.log({
+			status: helpGigStatus.ACTIVE,
+			subjectId: subject[0].value,
+			grade:stateProps.User.data.grade,
+			subjectName: data.find(it=>it.id === subject[0].value).name,
+			dateTime: new Date().toUTCString(),
+		})
 		dispatch(insertHelp({
 			status: helpGigStatus.ACTIVE,
 			subjectId: subject[0].value,
 			grade:stateProps.User.data.grade,
-			subjectName: data.find(it=>it.id === subject).name,
+			subjectName: data.find(it=>it.id === subject[0].value).name,
 			dateTime: new Date().toUTCString(),
 		},async ()=>{
-			alert("Help Request Successful!");
+			// alert("Help Request Successful!");
 			onRequest();
 		}));
 	};
 	return (
 		<CIContainer>
-			<View>
+			<View style={Styles.innerContainer}>
 				{loading || stateProps.Subjects.loading?
-					<CenteredLoading />
+					<CenteredLoading size="large" />
 					:
 					<>
 						<H1 text="Ask for help"/>
@@ -51,7 +61,7 @@ const RequestHelp =({onRequest})=>{
 							items={getArrayOfSubjectsAsLabeValueKeys(data)}
 							style={Styles.checkboxContainer}
 							onSelectionsChange={(ele) => {
-								setSubject([ele[0]]);
+								setSubject([ele[ele.length-1]])
 							}}
 							buttonStyle={Styles.checkboxSelected}
 							selectedItems={subject}

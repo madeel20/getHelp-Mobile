@@ -7,6 +7,7 @@ import Styles from "./styles";
 import H1 from "../../components/H1";
 import CInput from "../../components/CInput";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import CLayout from "../../components/CLayout";
 const EditMeetingLink = () => {
 	const dispatch = useDispatch();
 	const stateProps = useSelector(({ User }) => {
@@ -26,7 +27,7 @@ const EditMeetingLink = () => {
 		}));
 	};
 	return (
-		<CIContainer>
+		<CLayout>
 			<View style={Styles.innerContainer}>
 				{meetingLoading ?
 					<CenteredLoading size="large" />
@@ -48,7 +49,7 @@ const EditMeetingLink = () => {
 					</>
 				}
 			</View>
-		</CIContainer>
+		</CLayout>
 	);
 };
 

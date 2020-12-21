@@ -6,9 +6,10 @@ import { helpGigStatus } from "../../../utils/Constants";
 import { auth, database } from "../../../firebase";
 import CIContainer from "../../../components/CIContainer";
 import H1 from "../../../components/H1";
-import { View,Text, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import Styles from "./styles";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { themeColor } from "../../../theme";
 const WaitingForHelp = ({ onCancel }) => {
 	const dispatch = useDispatch();
 	useEffect(() => {
@@ -19,29 +20,36 @@ const WaitingForHelp = ({ onCancel }) => {
 			...GetHelp
 		};
 	});
-	const { loading } = stateProps;
+	const { cancellationLoading } = stateProps;
 	const handleCancel = async () => {
-		// check if any helper is waiting to accept the request .. then un assign him
-		let gig = await database().ref("helpGigs").child(auth().currentUser.uid).once("value");
-		gig = gig.val() ? gig.val() : {};
-		if (gig.lastHelperAssigned) {
-			await database().ref("helpers").child(gig.lastHelperAssigned).update({
-				assignedUser: "",
-			});
+		try {
+			// check if any helper is waiting to accept the request .. then un assign him
+			let gig = await database().ref("helpGigs").child(auth().currentUser.uid).once("value");
+			gig = gig.val() ? gig.val() : {};
+			console.log(gig)
+			if (gig && gig.lastHelperAssigned) {
+				await database().ref("helpers").child(gig.lastHelperAssigned).update({
+					assignedUser: "",
+				});
+			}
+			console.log(dispatch,updateHelpStatus,{ status: helpGigStatus.CANCELLED, lastHelperAssigned: "", helpersAsked: [], helperId: "", dateTime: "" })
+			dispatch(updateHelpStatus({ status: helpGigStatus.CANCELLED, lastHelperAssigned: "", helpersAsked: [], helperId: "", dateTime: "" }, () => {
+				onCancel();
+			}));
 		}
-		dispatch(updateHelpStatus({ status: helpGigStatus.CANCELLED, lastHelperAssigned: "", helpersAsked: [], helperId: "", dateTime: "" }, () => {
-			onCancel();
-		}));
+		catch (err) {
+			console.log(err)
+		}
 	};
 
 	return (
 		<CIContainer>
-			<View>
+			<View style={Styles.innerContainer}>
 				<H1 text="Searching For Helpers…" />
 				<Text>	Please wait </Text>
 				<ActivityIndicator size="large" color={themeColor} />
-				{loading ?
-					<ActivityIndicator size="size" color={themeColor} />
+				{cancellationLoading ?
+					<ActivityIndicator size="large" color={themeColor} />
 					:
 					<TouchableOpacity style={Styles.btn} onPress={handleCancel}>
 						<Text style={Styles.btnText}>
@@ -50,7 +58,7 @@ const WaitingForHelp = ({ onCancel }) => {
 					</TouchableOpacity>
 				}
 				<Text>Please be ready to share your screen with the problem you try to solve.</Text>
-				<Text>If your problem is on paper, please take a photo using your phone and show the photo on your computer screen.</Text>
+				<Text>If your problem is on paper, please take a photo using your phone and show the photo on your screen.</Text>
 			</View>
 		</CIContainer>
 	);

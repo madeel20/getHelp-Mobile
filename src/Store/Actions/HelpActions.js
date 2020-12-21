@@ -22,17 +22,18 @@ export const insertHelp = (payload,CB) => dispatch => {
 
 };
 export const updateHelpStatus = (payload,CB) => dispatch => {
-	dispatch({type:GetHelp.CANCEL_HELP,payload: {loading:true}});
+	dispatch({type:GetHelp.CANCEL_HELP,payload: {cancellationLoading:true}});
+
 	database()
 		.ref("helpGigs").child(auth().currentUser.uid)
 		.update(payload)
-		.then(() => {
-			dispatch({type:GetHelp.CANCEL_HELP,payload: {loading:false}});
+		.then(() => {	
+			dispatch({type:GetHelp.CANCEL_HELP,payload: {cancellationLoading:false}});
 			CB && CB();
 		})
 		.catch((err) => {
 			console.log(err);
-			dispatch({type:GetHelp.CANCEL_HELP,payload: {loading:false}});
+			dispatch({type:GetHelp.CANCEL_HELP,payload: {cancellationLoading:false}});
 			CB && CB();
 		});
 };

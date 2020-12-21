@@ -12,7 +12,7 @@ import {helperStatus} from "../../utils/Constants";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Request from "./Request";
 import Styles from './styles'
-const Home = ()=>{
+const Home = ({navigation})=>{
 	const dispatch = useDispatch();
 	const stateProps = useSelector(({User})=>{
 		return {...User};
@@ -58,15 +58,8 @@ const Home = ()=>{
 						onValueChange={()=>dispatch(updateHelperUserStatus({status:!activeStatus}))}
 						value={activeStatus}
       				/>
-					{/* <Switch
-						checked={activeStatus}
-						onChange={(e)=>dispatch(updateHelperUserStatus({status:!activeStatus}))}
-						color="primary"
-						name="checkedB"
-						inputProps={{ "aria-label": "primary checkbox" }}
-					/> */}
 				</View>
-				<TouchableOpacity style={Styles.subChildContainer}>
+				<TouchableOpacity onPress={()=>navigation.navigate('Get Help')} style={Styles.subChildContainer}>
 				<View>
 					<Text>	I need help! </Text>
 					<Icon name="near-me" color="black" size={25} style={{alignSelf:'center'}}/>

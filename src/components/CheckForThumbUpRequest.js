@@ -5,7 +5,6 @@ import { websiteLink } from "../utils/Constants";
 import { Button, Snackbar } from 'react-native-paper';
 import { ActivityIndicator,StyleSheet,View } from "react-native";
 import { themeColor } from "../theme";
-
 const CheckForThumbsUpRequest = () => {
 	const [currentGig, setCurrentGig] = useState({});
 	const [open, setOpen] = useState(false);
@@ -14,25 +13,25 @@ const CheckForThumbsUpRequest = () => {
 	const intervalObj = useRef();
 	const [loading, setLoading] = useState(false);
 	useEffect(() => {
-		intervalObj.current = setInterval(() =>
-			database().ref("acceptedGigs").once("value").then((snap) => {
-				let res = convertDBSnapshoptToArrayOfObject(snap);
-				// filter gig where user id is of current user
-				res = res.filter(it => it.userId === auth().currentUser.uid);
-				// check if there any gig whose thump up is not set ... and the time is greater then 2 min
-				res = res.filter(it => !it.hasOwnProperty("thumbsUp") && ((new Date().getTime() - new Date(it.acceptedTime).getTime()) / 1000) > 3600);
-				if (res.length > 0) {
-					firestore().collection("users").where("id", "==", res[0].helperId).get().then(r => {
-						if (r.docs.length > 0) {
-							setHelperUser(convertToArray(r.docs)[0]);
-							Notifier.start("Would you like to give your helper " + convertToArray(r.docs)[0].fullName + " a thumbs-up?", "", websiteLink);
-							setCurrentGig(res[0]);
-							setOpen(true);
-							clearInterval(intervalObj.current);
-						}
-					});
-				}
-			}), 10000);
+		// intervalObj.current = setInterval(
+		// 	database().ref("acceptedGigs").once("value").then((snap) => {
+		// 		let res = convertDBSnapshoptToArrayOfObject(snap);
+		// 		// filter gig where user id is of current user
+		// 		res = res.filter(it => it.userId === auth().currentUser.uid);
+		// 		// check if there any gig whose thump up is not set ... and the ti me is greater then 2 min
+		// 		res = res.filter(it => !it.hasOwnProperty("thumbsUp") && ((new Date().getTime() - new Date(it.acceptedTime).getTime()) / 1000) > 3600);
+		// 		if (res.length > 0) {
+		// 			firestore().collection("users").where("id", "==", res[0].helperId).get().then(r => {
+		// 				if (r.docs.length > 0) {
+		// 					setHelperUser(convertToArray(r.docs)[0]);
+		// 					// Notifier.start("Would you like to give your helper " + convertToArray(r.docs)[0].fullName + " a thumbs-up?", "", websiteLink);
+		// 					setCurrentGig(res[0]);
+		// 					setOpen(true);
+		// 					clearInterval(intervalObj.current);
+		// 				}
+		// 			});
+		// 		}
+		// 	}), 10000);
 		return () => {
 			clearInterval(intervalObj.current);
 		};
