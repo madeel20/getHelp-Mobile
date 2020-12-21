@@ -8,6 +8,7 @@ import {auth} from './src/firebase/index'
 import {store} from "./src/Store";
 import NewUserStack from "./src/stacks/NewUserStack";
 import MainStack from './src/stacks/MainStack';
+import { View } from 'react-native';
 const App = () => {
 	const [user, setUser] = useState(null);
 	const [initializing, setInitializing] = useState(true);
@@ -49,7 +50,7 @@ const App = () => {
 		}
 	}, [user])
 	if (isLoading) {
-		return <CenteredLoading size="large" />;
+		return <View style={{marginTop:'50%'}}><CenteredLoading size="large" /></View>;
 	}
 	if (!user) {
 		return 	<NavigationContainer><AuthStack /></NavigationContainer>;

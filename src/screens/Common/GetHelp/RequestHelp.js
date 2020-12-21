@@ -2,10 +2,8 @@ import {useDispatch, useSelector} from "react-redux";
 import React, {useEffect, useState} from "react";
 import {loadSubjects} from "../../../Store/Actions/SubjectActions";
 import {insertHelp} from "../../../Store/Actions/HelpActions";
-import { MappedElement} from "../../../utils/helpers";
 import { helpGigStatus} from "../../../utils/Constants";
 import {getArrayOfSubjectsAsLabeValueKeys} from '../../../utils/helpers'
-import CIContainer from "../../../components/CIContainer";
 import Styles from "./styles";
 import {MultipleSelectPicker} from 'react-native-multi-select-picker';
 import { View,Text } from "react-native";
