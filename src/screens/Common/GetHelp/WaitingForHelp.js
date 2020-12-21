@@ -41,7 +41,7 @@ const WaitingForHelp = ({ onCancel }) => {
 	};
 
 	return (
-		<CIContainer>
+		<>
 			<View style={Styles.innerContainer}>
 				<H1 text="Searching For Helpers…" />
 				<Text>	Please wait </Text>
@@ -58,7 +58,7 @@ const WaitingForHelp = ({ onCancel }) => {
 				<Text>Please be ready to share your screen with the problem you try to solve.</Text>
 				<Text>If your problem is on paper, please take a photo using your phone and show the photo on your screen.</Text>
 			</View>
-		</CIContainer>
+		</>
 	);
 };
 

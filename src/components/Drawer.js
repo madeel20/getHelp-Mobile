@@ -1,19 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import { Title, Caption, Drawer } from 'react-native-paper';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import auth from '@react-native-firebase/auth';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon1 from 'react-native-vector-icons/Ionicons';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import theme from '../theme';
+import { database } from '../firebase';
+import { getHelpGig } from '../Store/Actions/UsersActions';
+import { helpGigStatus, UserRoles } from '../utils/Constants';
 function DrawerContent(props) {
+  const {navigation} = props;
+  const dispatch = useDispatch();
   const stateProps = useSelector(({ User }) => {
     return {
       ...User,
     };
   });
-  const { fullName, grade, meetLink } = stateProps.data;
+  const {helpGig,data} = stateProps;
+  const { fullName, grade, meetLink } = data;
+  useEffect(()=>{
+		database().ref("helpGigs").child(auth().currentUser.uid)
+			.on("value", (snapshot) => {
+				dispatch(getHelpGig(snapshot.val()));
+			});
+	},[]);
+	useEffect(()=> {
+		if(helpGig && helpGig.status === helpGigStatus.ACTIVE){
+      navigation.navigate('Get Help')
+			// history.push(data.role === UserRoles.NORMAL_USER?"/":"/get-help");
+		}
+	},[helpGig]);
+ 
   return (
     <View
       style={{

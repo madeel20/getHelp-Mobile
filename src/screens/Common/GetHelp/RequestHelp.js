@@ -50,7 +50,7 @@ const RequestHelp =({onRequest})=>{
 		}));
 	};
 	return (
-		<CIContainer>
+		<>
 			<View style={Styles.innerContainer}>
 				{loading || stateProps.Subjects.loading?
 					<CenteredLoading size="large" />
@@ -74,7 +74,7 @@ const RequestHelp =({onRequest})=>{
 					</>
 				}
 			</View>
-		</CIContainer>
+		</>
 	);
 };
 

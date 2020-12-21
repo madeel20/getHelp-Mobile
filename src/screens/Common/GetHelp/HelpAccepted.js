@@ -37,7 +37,7 @@ const HelpAccepted = ({ helperId, onCancel }) => {
 		}));
 	};
 	return (
-		<CIContainer>
+		<>
 			<View style={Styles.innerContainer}>
 				{loading ?
 					<CenteredLoading />
@@ -58,7 +58,7 @@ const HelpAccepted = ({ helperId, onCancel }) => {
 					</>
 				}
 			</View>
-		</CIContainer>
+		</>
 	);
 };
 
