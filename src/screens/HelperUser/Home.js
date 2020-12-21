@@ -38,7 +38,7 @@ const Home = ({ navigation }) => {
 		return (
 			<CLayout>
 				<View style={Styles.innerContainer}>
-					<Text style={[Styles.paraText, { fontSize: theme.h2FontSize }]}>Hey, {data.fullName} go to your google meet link to help! </Text>
+					<Text style={[Styles.paraText, { fontSize: theme.h2FontSize }]}>Hey, {data.fullName||""} go to your google meet link to help! </Text>
 					<Button style={[Styles.btn]} onPress={() => setIsRequestAccepted(false)} >
 						<Text style={Styles.btnText}>Done</Text></Button>
 				</View>
@@ -48,7 +48,7 @@ const Home = ({ navigation }) => {
 	return (
 		<CLayout>
 			<View style={Styles.innerContainer}>
-				<H1 text={"HI, "+data.fullName} />
+				<H1 text={"HI, "+(data.fullName||"")} />
 				<View style={Styles.subContainers}>
 					<View style={Styles.subChildContainer}>
 						<Text>	Are you available to help? </Text>

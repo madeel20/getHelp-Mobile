@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, Linking } from 'react-native';
 import { Title, Caption, Drawer } from 'react-native-paper';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import auth from '@react-native-firebase/auth';
@@ -48,7 +48,7 @@ function DrawerContent(props) {
           <Title style={styles.title}>{fullName}</Title>
           <Caption style={styles.caption}>Grade: {grade}</Caption>
           <Caption onPress={() => {
-            Linking.openURL(helperUser.meetLink)
+            Linking.openURL(meetLink)
               .catch(err => {
                 console.error("Failed opening page because: ", err)
                 alert('Meeting link is invalid!')

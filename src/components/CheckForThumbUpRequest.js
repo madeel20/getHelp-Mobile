@@ -3,44 +3,44 @@ import { database, auth, firestore } from "../firebase";
 import { convertDBSnapshoptToArrayOfObject, convertToArray } from "../utils/helpers";
 import { websiteLink } from "../utils/Constants";
 import { Button, Snackbar } from 'react-native-paper';
-import { ActivityIndicator,StyleSheet,View } from "react-native";
-import { themeColor } from "../theme";
+import { ActivityIndicator,StyleSheet,Text,View,Alert } from "react-native";
+import theme, { themeColor } from "../theme";
 const CheckForThumbsUpRequest = () => {
 	const [currentGig, setCurrentGig] = useState({});
 	const [open, setOpen] = useState(false);
 	const [helperUser, setHelperUser] = useState({});
-	const [intervalFlag, setIntervalFlag] = useState(Math.random());
+	// const [intervalFlag, setIntervalFlag] = useState(Math.random());
 	const intervalObj = useRef();
 	const [loading, setLoading] = useState(false);
 	useEffect(() => {
-		// intervalObj.current = setInterval(
-		// 	database().ref("acceptedGigs").once("value").then((snap) => {
-		// 		let res = convertDBSnapshoptToArrayOfObject(snap);
-		// 		// filter gig where user id is of current user
-		// 		res = res.filter(it => it.userId === auth().currentUser.uid);
-		// 		// check if there any gig whose thump up is not set ... and the ti me is greater then 2 min
-		// 		res = res.filter(it => !it.hasOwnProperty("thumbsUp") && ((new Date().getTime() - new Date(it.acceptedTime).getTime()) / 1000) > 3600);
-		// 		if (res.length > 0) {
-		// 			firestore().collection("users").where("id", "==", res[0].helperId).get().then(r => {
-		// 				if (r.docs.length > 0) {
-		// 					setHelperUser(convertToArray(r.docs)[0]);
-		// 					// Notifier.start("Would you like to give your helper " + convertToArray(r.docs)[0].fullName + " a thumbs-up?", "", websiteLink);
-		// 					setCurrentGig(res[0]);
-		// 					setOpen(true);
-		// 					clearInterval(intervalObj.current);
-		// 				}
-		// 			});
-		// 		}
-		// 	}), 10000);
-		return () => {
-			clearInterval(intervalObj.current);
-		};
-	}, [intervalFlag]);
+		intervalObj.current =  setInterval(()=>
+		database().ref("acceptedGigs").once("value").then((snap)=>{
+			let res = convertDBSnapshoptToArrayOfObject(snap);
+			// filter gig where user id is of current user
+			res = res.filter(it=>it.userId===auth().currentUser.uid);
+			// check if there any gig whose thump up is not set ... and the time is greater then 2 min
+			res = res.filter(it=>!it.hasOwnProperty("thumbsUp") && ((new Date().getTime() - new Date(it.acceptedTime).getTime())/1000)> 3600 );
+			if(res.length>0){
+				firestore().collection("users").where("id","==",res[0].helperId).get().then(r=>{
+					if(r.docs.length>0){
+						setHelperUser(convertToArray(r.docs)[0]);
+						setCurrentGig(res[0]);
+						setOpen(true);
+						clearInterval(intervalObj.current);
+						generateAlert();
+					}
+				});
+			}
+		}),10000);
+	return ()=>{
+		clearInterval(intervalObj.current);
+	};
+	}, []);
 	const handleNo = () => {
 		setLoading(true);
 		database().ref("acceptedGigs").child(currentGig.id).update({ thumbsUp: false }).then(() => {
-			setLoading(false);
-			setOpen(false);
+			// setLoading(false);
+			// setOpen(false);
 			// start listener again
 			setIntervalFlag(Math.random());
 		});
@@ -48,36 +48,49 @@ const CheckForThumbsUpRequest = () => {
 	const handleYes = () => {
 		setLoading(true);
 		database().ref("acceptedGigs").child(currentGig.id).update({ thumbsUp: true }).then(() => {
-			setLoading(false);
-			setOpen(false);
+			// setLoading(false);
+			// setOpen(false);
 			// start listener again
 			setIntervalFlag(Math.random());
 		});
 	};
+	const generateAlert = ()=>{
+		Alert.alert(
+			'Feedback',
+			'Would you like to give your helper '+ helperUser.fullName+' a thumbs-up?',
+			[
+			  {
+				text: 'Yes',
+				onPress: () => handleYes()
+			  },
+			  {
+				text: 'No',
+				onPress: () =>  handleNo(),
+				style: 'cancel'
+			  },
+			],
+			{ cancelable: false }
+		  );
+	}
 	return (
-		<>
-			<View style={styles.container}>
+<>
+			{/* <>
 				<Snackbar
 					visible={open}
-					// onDismiss={}
-					// action={{
-					// 	label: 'Undo',
-					// 	onPress: () => {
-					// 		// Do something
-					// 	},
-					// }}
+					onDismiss={()=>{}}
+					style={{backgroundColor:'white',borderColor:themeColor,borderWidth:0.4,margin:20,display:'flex',justifyContent:'center',alignItems:'center',alignContent:'center'}}			
+					duration={1000}
+
 					>
 					{loading ? <ActivityIndicator size={"small"} color={themeColor} /> :
 						<>   {currentGig && <>
-							Would you like to give your helper {helperUser.fullName} a thumbs-up?
-							<View>
-								<Button mode="contained" onPress={handleYes}>Yes</Button>
-								<Button onPress={handleNo}>No</Button>
-							</View>
+							<Text style={{position:'relative',fontSize: theme.h3FontSize,color:'black'}}>Would you like to give your helper {helperUser.fullName} a thumbs-up?</Text>
+								<Button mode="contained" style={{backgroundColor:themeColor,marginTop:10}} onPress={()=>alert('ADF')}>Yes</Button>
+								<Button style={{marginTop:10}} onPress={handleNo}>No</Button>
 						</>}
 						</>}
-				</Snackbar>
-			</View>
+				</Snackbar> */}
+			
 		</>
 	);
 };
