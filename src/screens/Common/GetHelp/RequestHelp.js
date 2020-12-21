@@ -61,7 +61,9 @@ const RequestHelp =({onRequest})=>{
 							items={getArrayOfSubjectsAsLabeValueKeys(data)}
 							style={Styles.checkboxContainer}
 							onSelectionsChange={(ele) => {
-								setSubject([ele[ele.length-1]])
+								if(ele.length>0){
+									setSubject(	[ele[ele.length-1]]);
+								}
 							}}
 							buttonStyle={Styles.checkboxSelected}
 							selectedItems={subject}
