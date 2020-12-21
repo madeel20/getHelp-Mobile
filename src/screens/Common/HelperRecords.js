@@ -4,11 +4,14 @@ import { convertDBSnapshoptToArrayOfObject, convertToArray, MappedElement } from
 import { useSelector } from "react-redux";
 import { UserRoles } from "../../utils/Constants";
 import CIContainer from "../../components/CIContainer";
-import { View } from "react-native";
+import { View ,Text} from "react-native";
 import CenteredLoading from "../../components/CenteredLoading";
 import H1 from "../../components/H1";
 import { DataTable } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import CLayout from "../../components/CLayout";
+import styles from "../HelperUser/styles";
+import { ScrollView } from "react-native-gesture-handler";
 const HelperRecords = () => {
 	const stateProps = useSelector(({ User }) => {
 		return { ...User };
@@ -18,29 +21,31 @@ const HelperRecords = () => {
 	const [users, setUsers] = useState([]);
 	const [loading, setLoading] = useState(true);
 	useEffect(() => {
-		database().ref("acceptedGigs").once("value").then((snap) => {
-			let res = convertDBSnapshoptToArrayOfObject(snap);
+		database().ref("acceptedGigs").once("value").then(async (snap) => {
+			let res = await convertDBSnapshoptToArrayOfObject(snap);
 			if (data.role === UserRoles.HELPER_USER) { setRecords(res.filter(it => it.helperId === auth().currentUser.uid)); }
 			else { setRecords(res.filter(it => it.userId === auth().currentUser.uid)); }
-			firestore().collection("users").get().then((res) => {
-				setUsers(convertToArray(res.docs, false));
-				setLoading(false);
-			});
+			console.log(res.filter(it => it.helperId === auth().currentUser.uid))
+			setLoading(false); 
+		});
+		 firestore().collection("users").get().then((res) => {
+			setUsers(convertToArray(res.docs, false));
 		});
 
 	}, []);
 	if (data.role === UserRoles.HELPER_USER) {
 		return (
-			<CIContainer>
-				<View>
-					{loading ?
+			<CLayout>
+				<View style={[styles.innerContainer,{paddingHorizontal:5,width:'90%'}]}>
+ 					{loading ?
 						<CenteredLoading size={30} />
 						:
 						<>
 							<H1 text="Helping Records" />
-							<View>
+							<View style={{flexDirection:'row'}}>
 								<Text> Thumbs-up: {records.filter(it => it.thumbsUp && it.thumbsUp === true).length} </Text>
-								<Text> Total Count: {records.length} </Text></View>
+								<Text> Total Count: {records.length} </Text>
+							</View>
 							<DataTable>
 								<DataTable.Header>
 									<DataTable.Title>Date</DataTable.Title>
@@ -49,24 +54,25 @@ const HelperRecords = () => {
 									<DataTable.Title>Subject</DataTable.Title>
 									<DataTable.Title>Thumbs Up</DataTable.Title>
 								</DataTable.Header>
+								<ScrollView style={styles.recordsContainer}>
 								<MappedElement data={records} renderElement={(obj, index) => {
 									return (
 										<DataTable.Row key={obj.id}>
-
 											<DataTable.Cell>{new Date(obj.acceptedTime).toDateString()}</DataTable.Cell>
 											<DataTable.Cell>{new Date(obj.acceptedTime).toTimeString().slice(0, 8)}</DataTable.Cell>
 											<DataTable.Cell>{users.find(it => it.id === obj.userId) && users.find(it => it.id === obj.userId).fullName}</DataTable.Cell>
 											<DataTable.Cell >{obj.subjectName}</DataTable.Cell>
 											<DataTable.Cell >{obj.hasOwnProperty("thumbsUp") ? <>
 												{obj.thumbsUp && obj.thumbsUp === true ?
-													<Icon name="thumb_up" color="black" /> : <Icon name="thumb_down:=" color="black" />}</> : "--"}</DataTable.Cell>
+													<Icon name="thumb-up" color="black" /> : <Icon name="thumb-down" color="black" />}</> : "--"}</DataTable.Cell>
 										</DataTable.Row>
 									);
 								}} />
+								</ScrollView>
 							</DataTable>
 						</>}
 				</View>
-			</CIContainer>
+			</CLayout>
 		);
 	}
 	// else {

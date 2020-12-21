@@ -8,7 +8,9 @@ import H1 from "../../components/H1";
 import CInput from "../../components/CInput";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import CLayout from "../../components/CLayout";
-const EditMeetingLink = () => {
+import { View, Text } from "react-native";
+import theme from "../../theme";
+const EditMeetingLink = ({ navigation }) => {
 	const dispatch = useDispatch();
 	const stateProps = useSelector(({ User }) => {
 		return {
@@ -40,12 +42,13 @@ const EditMeetingLink = () => {
 							value={meetLink}
 							placeHolder={"Your google meet link"}
 						/>
-						<Text style={Styles.paraText}>Format: https:// your meet link</Text>
+						<Text style={[Styles.paraText, { alignSelf: 'center' }]}>Format: https:// your meet link</Text>
 						<TouchableOpacity style={Styles.btn} onPress={handleSubmit}>
 							<Text style={Styles.btnText}>
 								Save
 								</Text>
 						</TouchableOpacity>
+						<Text onPress={() => navigation.navigate('Home')} style={[Styles.paraText, { alignSelf: 'center', fontSize: theme.linkFontSize, color: 'grey' }]}>Go Back to Home</Text>
 					</>
 				}
 			</View>

@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 
-export default function CInput({style={},value,onChangeText,placeHolder='',type='name'}) {
+export default function CInput({style={},value,onChangeText,placeHolder='',type='name',keyboardType='default'}) {
     return (
         <TextInput
         style={[styles.input,style]}
@@ -10,6 +10,7 @@ export default function CInput({style={},value,onChangeText,placeHolder='',type=
         value={value}
         placeholder={placeHolder}
         textContentType={type}
+        keyboardType={keyboardType}
         />
     )
 }

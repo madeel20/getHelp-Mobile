@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
     innerContainer:{
         borderWidth:0.5,
         borderColor: 'black',
+        minHeight:250,
         borderRadius:5,
         width:300,
         overflow:'hidden',
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
         paddingVertical:5,
         paddingHorizontal:30,
         borderRadius:5,
-        flexDirection:'row'
+        flexDirection:'row',
     },
     btnText:{
         color:'white'
@@ -54,13 +55,17 @@ const styles = StyleSheet.create({
         alignSelf:'flex-start'
     },
     checkboxContainer:{ 
-        width: 230 
+        width: 230 ,
+        marginVertical:10,
     },
     checkbox:{
         height: 20, width: 20
     },
     checkboxSelected:{
         backgroundColor: themeColor,
+    },
+    recordsContainer:{
+        maxHeight:300,
     }
 })
 

@@ -4,14 +4,15 @@ import { loadSubjects } from "../../Store/Actions/SubjectActions";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProfileDetails } from "../../Store/Actions/UsersActions";
 import CIContainer from "../../components/CIContainer";
-import { View } from "react-native";
+import { View ,Text} from "react-native";
 import Styles from "./styles";
 import H1 from "../../components/H1";
 import {MultipleSelectPicker} from 'react-native-multi-select-picker';
 import CenteredLoading from "../../components/CenteredLoading";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import {getArrayOfSubjectsAsLabeValueKeys,getBackAsOriginalSubjectStructure} from '../../utils/helpers'
-const EditSubjects = () => {
+import theme from "../../theme";
+const EditSubjects = ({navigation}) => {
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(loadSubjects());
@@ -60,6 +61,7 @@ const EditSubjects = () => {
 								Save
 							</Text>
 						</TouchableOpacity>
+						<Text onPress={() => navigation.navigate('Home')} style={[Styles.paraText, { alignSelf: 'center', fontSize: theme.linkFontSize, color: 'grey' }]}>Go Back to Home</Text>
 					</>
 				}
 			</View>

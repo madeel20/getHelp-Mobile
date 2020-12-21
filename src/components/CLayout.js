@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
 	child:{
 		flex:1,
 		display:'flex',
-		justifyContent:'center',
+		justifyContent:'flex-start',
+		paddingTop:50,
 		alignItems:'center',
 	}
 })

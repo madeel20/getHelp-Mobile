@@ -7,7 +7,11 @@ import CenteredLoading from "../../components/CenteredLoading";
 import H1 from "../../components/H1";
 import CInput from "../../components/CInput";
 import { TouchableOpacity } from "react-native-gesture-handler";
-const EditProfile = () => {
+import Styles from "./styles";
+import { Text, View } from "react-native";
+import CLayout from "../../components/CLayout";
+import theme from "../../theme";
+const EditProfile = ({navigation}) => {
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(loadSubjects());
@@ -25,16 +29,14 @@ const EditProfile = () => {
 			alert("Please fill all the fields.");
 			return;
 		}
-		if (parseInt(grade) > 10) { setError("Invalid Grade!"); setOpen(true); return; }
+		if ((parseInt(grade) > 10 || parseInt(grade) < 1) || isNaN(grade)) { alert("Invalid Grade!"); return; }
 		dispatch(updateProfileDetails({ grade, fullName }, () => {
-			setError("");
-			setMsg("Profile Updated!");
-			setOpen(true);
+			alert("Profile Updated!");
 		}));
 	};
 	return (
-		<CIContainer>
-			<View style={Styles.innerContainer}>
+		<CLayout>
+			<View style={[Styles.innerContainer,{paddingHorizontal:5}]}>
 				{loading || updatingDetailsLoading ?
 					<CenteredLoading size="large" />
 					:
@@ -49,16 +51,18 @@ const EditProfile = () => {
 							onChangeText={text => setGrade(text)}
 							value={grade}
 							placeHolder={"Grade"}
+							keyboardType="numeric"
 						/>
 						<TouchableOpacity style={Styles.btn} onPress={handleSubmit}>
 							<Text style={Styles.btnText}>
 								Save
 								</Text>
 						</TouchableOpacity>
-						<TouchableOpacity><Text>Go back to home</Text></TouchableOpacity>
+						<Text onPress={() => navigation.navigate('Home')} style={[Styles.paraText, { alignSelf: 'center', fontSize: theme.linkFontSize, color: 'grey' }]}>Go Back to Home</Text>
+
 					</>}
 			</View>
-		</CIContainer>
+		</CLayout>
 	);
 };
 
