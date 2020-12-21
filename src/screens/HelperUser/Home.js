@@ -48,7 +48,7 @@ const Home = ({ navigation }) => {
 	return (
 		<CLayout>
 			<View style={Styles.innerContainer}>
-				<H1 text={data.fullName} />
+				<H1 text={"HI, "+data.fullName} />
 				<View style={Styles.subContainers}>
 					<View style={Styles.subChildContainer}>
 						<Text>	Are you available to help? </Text>
