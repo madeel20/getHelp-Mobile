@@ -31,7 +31,7 @@ const CheckForThumbsUpRequest = () => {
 					}
 				});
 			}
-		}),10000);
+		}),40000);
 	return ()=>{
 		clearInterval(intervalObj.current);
 	};
@@ -64,7 +64,7 @@ const CheckForThumbsUpRequest = () => {
 				onPress: () => handleYes()
 			  },
 			  {
-				text: 'No',
+				text: 'Not this time',
 				onPress: () =>  handleNo(),
 				style: 'cancel'
 			  },
