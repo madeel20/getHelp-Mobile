@@ -66,7 +66,7 @@ const RequestHelp =({onRequest})=>{
 							buttonStyle={Styles.checkboxSelected}
 							selectedItems={subject}
 						/>
-						<TouchableOpacity style={Styles.btn} onPress={handleSubmit}>
+						<TouchableOpacity style={[Styles.btn,{marginTop:10}]} onPress={handleSubmit}>
 							<Text style={Styles.btnText}>
 							Find Help
 							</Text>

@@ -6,7 +6,6 @@ import { helpGigStatus, websiteLink } from "../../../utils/Constants";
 import { firestore } from "../../../firebase";
 import CenteredLoading from "../../../components/CenteredLoading";
 import { Linking, Text, View } from "react-native";
-import CIContainer from "../../../components/CIContainer";
 import H1 from "../../../components/H1";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Styles from "./styles";
@@ -55,6 +54,8 @@ const HelpAccepted = ({ helperId, onCancel }) => {
 								Done
 							</Text>
 						</TouchableOpacity>
+						<Text style={[Styles.paraText,{marginTop:10}]}>Click ‘DONE”’ after the meeting session is finished.</Text>
+
 					</>
 				}
 			</View>
