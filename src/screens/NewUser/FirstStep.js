@@ -31,6 +31,7 @@ const FirstStep = ({ onNext }) => {
 					value={fullName}
 					placeHolder={"Full Name"}
 				/>
+				<Text style={Styles.paraText}>Grade</Text>
 				<NumericInput iconStyle={Styles.arrowIcons} type='up-down' value={grade} onChange={value => setGrade(value)} minValue={1} maxValue={10} />
 				<TouchableOpacity style={Styles.btn} onPress={handleSubmit}>
 					<Text style={Styles.btnText}>

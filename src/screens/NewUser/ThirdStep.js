@@ -51,11 +51,12 @@ const ThirdStep = ({ onNext }) => {
 							buttonStyle={Styles.checkboxSelected}
 							selectedItems={subjects}
 						/>
-						<TouchableOpacity style={Styles.btn} onPress={handleSubmit}>
+						<TouchableOpacity style={[Styles.btn,{marginTop:10}]} onPress={handleSubmit}>
 							<Text style={Styles.btnText}>
 								Next
 					</Text>
 						</TouchableOpacity>
+						<Text style={[Styles.paraText,{marginTop:10}]}>Simply click “NEXT” if you just want to get help at this moment.</Text>
 					</>
 				}
 			</View>

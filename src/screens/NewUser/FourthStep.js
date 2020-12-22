@@ -40,9 +40,11 @@ const FourthStep = ({ onNext, onFinish }) => {
 					<CenteredLoading size="large" />
 					:
 					<>
-						<Text style={Styles.paraText}>Go to meet.google.com using the same Google Account you signed up with and get a Google Meet
-                            link. This will be the permanent link you use to host help sessions.</Text>
-						<Text>Paste your Google Meet link.</Text>
+						<Text style={Styles.paraText}>Now go to meet.google.com (Add hyperlink to meet.google.com)</Text>
+						<Text style={Styles.paraText}>
+							<Text style={{fontWeight:'bold'}}>Important:</Text> Make sure you are using the same personal Google Account you signed up with.
+							Now click “New meeting” and then “Create a meeting for later”, copy that Google Meet link. This will be the permanent link you use to host help sessions.
+</Text>
 
 						<CInput
 							onChangeText={text => setLink(text)}

@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
         borderWidth:0.5,
         borderColor: 'black',
         borderRadius:5,
-        height:300,
+        minHeight:300,
         width:300,
         overflow:'hidden',
         padding:15,
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
         paddingVertical:5,
         paddingHorizontal:30,
         borderRadius:5,
-        flexDirection:'row'
+        flexDirection:'row',
     },
     btnText:{
         color:'white'
@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
         fontSize:theme.pFontSize
     },
     checkboxContainer:{ 
-        width: 230 
+        width: 230 ,
+        maxHeight:220
     },
     checkbox:{
         height: 20, width: 20
