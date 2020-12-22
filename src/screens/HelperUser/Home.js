@@ -61,7 +61,7 @@ const Home = ({ navigation }) => {
 				<H1 text={"HI, " + (data.fullName || "...")} />
 				<View style={Styles.subContainers}>
 					<View style={Styles.subChildContainer}>
-						<Text>	Are you available to help? </Text>
+						<Text style={{marginBottom:10}}>	Are you available to help? </Text>
 						<Switch
 							trackColor={{ false: "#767577", true: "grey" }}
 							thumbColor={activeStatus ? themeColor : "#f4f3f4"}
@@ -69,6 +69,7 @@ const Home = ({ navigation }) => {
 							onValueChange={() => dispatch(updateHelperUserStatus({ status: !activeStatus }))}
 							value={activeStatus}
 						/>
+						<Text  style={[Styles.paraText,{marginTop:10}]}>Please use the “Edit Subjects” tab inside the drawer to select or update subjects you would like to help with.</Text>
 					</View>
 					<TouchableOpacity onPress={() => navigation.navigate('Get Help')} style={Styles.subChildContainer}>
 						<View>

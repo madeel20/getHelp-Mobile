@@ -55,8 +55,6 @@ const WaitingForHelp = ({ onCancel }) => {
 							</Text>
 					</TouchableOpacity>
 				}
-				<Text>Please be ready to share your screen with the problem you try to solve.</Text>
-				<Text>If your problem is on paper, please take a photo using your phone and show the photo on your screen.</Text>
 			</View>
 		</>
 	);

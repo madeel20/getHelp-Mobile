@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
         fontSize:theme.pFontSize
     },
     checkboxContainer:{ 
-        width: 230 
+        width: 230 ,
+        maxHeight:220
     },
     checkbox:{
         height: 20, width: 20
