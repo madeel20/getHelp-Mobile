@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     checkboxContainer:{ 
         width: 230 ,
         marginVertical:10,
+        maxHeight:250
     },
     checkbox:{
         height: 20, width: 20
@@ -66,7 +67,14 @@ const styles = StyleSheet.create({
     },
     recordsContainer:{
         maxHeight:300,
-    }
+    },
+    link: {
+        fontSize: 15,
+        lineHeight: 18,
+        fontFamily: 'Montserrat-Bold',
+        color: 'grey',
+        alignSelf: 'center',
+      },
 })
 
 export default styles;  

@@ -12,6 +12,7 @@ import CenteredLoading from "../../components/CenteredLoading";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import {getArrayOfSubjectsAsLabeValueKeys,getBackAsOriginalSubjectStructure} from '../../utils/helpers'
 import theme from "../../theme";
+import CLayout from "../../components/CLayout";
 const EditSubjects = ({navigation}) => {
 	const dispatch = useDispatch();
 	useEffect(() => {
@@ -39,7 +40,7 @@ const EditSubjects = ({navigation}) => {
 		}));
 	};
 	return (
-		<CIContainer>
+		<CLayout>
 			<View style={Styles.innerContainer}>
 				<H1 style={Styles.heading} text="Edit Subjects" />
 				{loading || updatingDetailsLoading ?
@@ -65,7 +66,7 @@ const EditSubjects = ({navigation}) => {
 					</>
 				}
 			</View>
-		</CIContainer>
+		</CLayout>
 	);
 };
 

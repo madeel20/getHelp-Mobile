@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Linking, Text, View } from "react-native";
 import { Switch, TouchableOpacity } from "react-native-gesture-handler";
 import { Title, Button } from 'react-native-paper';
 import { useDispatch, useSelector } from "react-redux";
@@ -38,9 +38,19 @@ const Home = ({ navigation }) => {
 		return (
 			<CLayout>
 				<View style={Styles.innerContainer}>
-					<Text style={[Styles.paraText, { fontSize: theme.h2FontSize }]}>Hey, {data.fullName||""} go to your google meet link to help! </Text>
+					<Text style={[Styles.paraText, { fontSize: theme.h2FontSize }]}>Hey, {data.fullName || ""} go to your google meet link to help! </Text>
+					<Text style={[Styles.paraText, { fontSize: theme.h3FontSize, marginHorizontal: 5 }]} onPress={() => {
+						Linking.openURL(data.meetLink||"")
+							.catch(err => {
+								console.error("Failed opening page because: ", err)
+								alert('Meeting link is invalid!')
+							})
+					}} style={Styles.link}>{data.meetLink || ""}</Text>
 					<Button style={[Styles.btn]} onPress={() => setIsRequestAccepted(false)} >
 						<Text style={Styles.btnText}>Done</Text></Button>
+					<Text style={[Styles.paraText, { marginTop: 5 }]}>
+						Click ‘DONE”’ after the meeting session is finished.
+						</Text>
 				</View>
 			</CLayout>
 		);
@@ -48,7 +58,7 @@ const Home = ({ navigation }) => {
 	return (
 		<CLayout>
 			<View style={Styles.innerContainer}>
-				<H1 text={"HI, "+(data.fullName||"")} />
+				<H1 text={"HI, " + (data.fullName || "...")} />
 				<View style={Styles.subContainers}>
 					<View style={Styles.subChildContainer}>
 						<Text>	Are you available to help? </Text>

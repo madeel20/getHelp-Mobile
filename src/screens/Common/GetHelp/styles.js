@@ -44,7 +44,14 @@ const styles = StyleSheet.create({
     },
     checkboxSelected:{
         backgroundColor: themeColor,
-    }
+    },
+    link: {
+        fontSize: 15,
+        lineHeight: 18,
+        fontFamily: 'Montserrat-Bold',
+        color: 'grey',
+        alignSelf: 'center',
+      },
 })
 
 export default styles;  

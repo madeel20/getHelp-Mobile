@@ -49,7 +49,7 @@ const EditProfile = ({navigation}) => {
 						/>
 						<CInput
 							onChangeText={text => setGrade(text)}
-							value={grade}
+							value={grade.toString()}
 							placeHolder={"Grade"}
 							keyboardType="numeric"
 						/>
