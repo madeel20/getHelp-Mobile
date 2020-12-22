@@ -3,10 +3,10 @@ import theme, { themeColor } from "../../theme";
 
 const styles = StyleSheet.create({
     innerContainer:{
-        borderWidth:0.5,
+        borderWidth:0.1,
         borderColor: 'black',
         minHeight:250,
-        borderRadius:5,
+        borderRadius:1,
         width:300,
         overflow:'hidden',
         paddingVertical:10,
