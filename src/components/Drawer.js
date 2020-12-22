@@ -42,7 +42,7 @@ function DrawerContent(props) {
         flexDirection: 'column',
         justifyContent: 'center',
         overflow: 'hidden',
-        paddingTop: 100
+        paddingTop: 50
       }}>
         <View style={styles.info}>
           <Title style={styles.title}>{fullName}</Title>
