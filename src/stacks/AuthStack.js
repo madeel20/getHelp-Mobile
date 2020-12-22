@@ -6,7 +6,7 @@ const RootStack = createStackNavigator();
 const AuthStack = ({ navigation }) => (
   <RootStack.Navigator
     screenOptions={{ headerShown: false }}
-    initialRouteName="SignUp">
+    initialRouteName="SignIn">
     <RootStack.Screen name="SignIn" component={SignIn} />
     <RootStack.Screen name="SignUp" component={SignUp} />
   </RootStack.Navigator>

@@ -4,11 +4,23 @@ import CenteredLoading from './src/components/CenteredLoading';
 import { NavigationContainer } from '@react-navigation/native';
 import { checkIfItsNewUser } from "./src/firebase/helpers";
 import AuthStack from './src/stacks/AuthStack';
-import {auth} from './src/firebase/index'
+import {auth,firestore} from './src/firebase/index'
+import messaging from '@react-native-firebase/messaging';
+import { Platform } from 'react-native';
 import {store} from "./src/Store";
 import NewUserStack from "./src/stacks/NewUserStack";
 import MainStack from './src/stacks/MainStack';
 import { View } from 'react-native';
+import {updateDataInFireStoreDocumentByFieldName} from './src/firebase/helpers'
+async function saveTokenToDatabase(token) {
+	// Assume user is already signed in
+	const userId = auth().currentUser.uid;
+  
+	// Add the token to the users datastore
+	await updateDataInFireStoreDocumentByFieldName('id',userId,'users',{token},()=>{
+		console.log('token updated');
+	})
+  }
 const App = () => {
 	const [user, setUser] = useState(null);
 	const [initializing, setInitializing] = useState(true);
@@ -20,6 +32,23 @@ const App = () => {
 			setInitializing(false);
 		}
 	}
+	useEffect(() => {
+		// Get the device token
+		messaging()
+		  .getToken()
+		  .then(token => {
+			return saveTokenToDatabase(token);
+		  });
+		  
+		// If using other push notification providers (ie Amazon SNS, etc)
+		// you may need to get the APNs token instead for iOS:
+		// if(Platform.OS == 'ios') { messaging().getAPNSToken().then(token => { return saveTokenToDatabase(token); }); }
+	
+		// Listen to whether the token changes
+		return messaging().onTokenRefresh(token => {
+		  saveTokenToDatabase(token);
+		});
+	  }, []);
 	useEffect(() => {
 		const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
 		return subscriber; // unsubscribe on unmount

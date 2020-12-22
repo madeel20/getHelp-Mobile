@@ -1175,6 +1175,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-7.10.3.tgz#2f318e4f757ec42f81a976b1de8a55ab1d01561d"
   integrity sha512-+RBgYAFEaWnGdnmWXR9mC9tTgCrmPcFtqsP+W0hLH3VBYGpxZCPJozzFWJhQHo6Scc8NR3Qpxxc4V8gm9+bImg==
 
+"@react-native-firebase/messaging@^10.3.1":
+  version "10.3.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-10.3.1.tgz#f764295ccb6fe97747dda097810d6d9c94b6c6c2"
+  integrity sha512-Ls1nkmP5YvD3nV5Vq7gwxu77TgaVGwuDc8jZB2AgpPWc1mse8/xkqRMuZ/ZXd3oPfuUiu1dlxET9SB2YrAR/Mw==
+
 "@react-native-firebase/storage@^7.4.14":
   version "7.4.14"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-7.4.14.tgz#5ceb2a740e94042cb6870f7a832df0cb0fdd164c"
