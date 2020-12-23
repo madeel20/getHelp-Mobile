@@ -7,7 +7,7 @@ const initialState = {
 	helpGig:{},
 	newData:{},
 	activeStatus:false,
-	helperUserData:{assignedUser:""}
+	helperUserData:{assignedUser:"",assignedTime:""}
 };
 export default (state = initialState, action = {}) => {
 	switch (action.type) {

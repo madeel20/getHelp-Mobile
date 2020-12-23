@@ -38,20 +38,20 @@ const CheckForThumbsUpRequest = () => {
 	}, []);
 	const handleNo = () => {
 		setLoading(true);
-		database().ref("acceptedGigs").child(currentGig.id).update({ thumbsUp: false }).then(() => {
+		database().ref("acceptedGigs").child(currentGig.id|"").update({ thumbsUp: false }).then(() => {
 			// setLoading(false);
 			// setOpen(false);
 			// start listener again
-			setIntervalFlag(Math.random());
+			// setIntervalFlag(Math.random());
 		});
 	};
 	const handleYes = () => {
 		setLoading(true);
-		database().ref("acceptedGigs").child(currentGig.id).update({ thumbsUp: true }).then(() => {
+		database().ref("acceptedGigs").child(currentGig.id|"").update({ thumbsUp: true }).then(() => {
 			// setLoading(false);
 			// setOpen(false);
 			// start listener again
-			setIntervalFlag(Math.random());
+			// setIntervalFlag(Math.random());
 		});
 	};
 	const generateAlert = ()=>{

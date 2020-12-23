@@ -24,7 +24,7 @@ const Home = ({ navigation }) => {
 			database()
 				.ref("helpers").child(auth().currentUser.uid).on("value", (snapshot) => {
 					dispatch(updateHelperUserStatus({ status: snapshot && snapshot.val() && Object.entries(snapshot.val()).length > 1 ? snapshot.val().status : helperStatus.AVAILABLE }));
-					dispatch(getHelperUserData(snapshot && snapshot.val() && Object.entries(snapshot.val()).length > 2 ? snapshot.val() : { assignedUser: "" }));
+					dispatch(getHelperUserData(snapshot && snapshot.val() && Object.entries(snapshot.val()).length > 2 ? snapshot.val() : { assignedUser: "",assignedTime:"" }));
 				});
 		}
 		catch (e) {

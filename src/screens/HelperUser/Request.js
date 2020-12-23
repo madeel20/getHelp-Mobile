@@ -28,7 +28,7 @@ const Request = ({ onAccepted }) => {
 				setCurrentRequest(res.val());
 				firestore().collection("users").where("id", "==", helperUserData.assignedUser).get().then(res => {
 					setRequestUser(res.docs[0].data());
-					alert(res.docs[0].data().fullName + " needs your help!");
+					// alert(res.docs[0].data().fullName + " needs your help!");
 					setLoading(false);
 				});
 			}
@@ -38,7 +38,7 @@ const Request = ({ onAccepted }) => {
 	const handleCancel = () => {
 		setLoading(true);
 		dispatch(updateHelpGig(helperUserData.assignedUser, { status: helpGigStatus.ACTIVE }, () => {
-			dispatch(setAssignedUserOfHelperUser({ assignedUser: "" }, () => {
+			dispatch(setAssignedUserOfHelperUser({ assignedUser: "" ,assignedTime:""}, () => {
 				setLoading(false);
 			}));
 		}));
@@ -47,7 +47,7 @@ const Request = ({ onAccepted }) => {
 		setLoading(true);
 		dispatch(updateHelpGig(helperUserData.assignedUser, { status: helpGigStatus.ASSIGNED, helperId: auth().currentUser.uid }, () => {
 			dispatch(insertIntoAcceptedGigs(helperUserData.assignedUser, () => {
-				dispatch(setAssignedUserOfHelperUser({ assignedUser: "" }, () => {
+				dispatch(setAssignedUserOfHelperUser({ assignedUser: "",assignedTime:"" }, () => {
 					onAccepted();
 					setLoading(false);
 				}));

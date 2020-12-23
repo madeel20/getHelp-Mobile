@@ -1,27 +1,50 @@
 import React, { useEffect, useRef } from "react";
 
-import { useSelector } from "react-redux";
-import { UserRoles } from "../utils/Constants";
+import { useDispatch, useSelector } from "react-redux";
+import { helperStatus, UserRoles } from "../utils/Constants";
 import { HelperUserRoutes, NormalUserRoutes } from "../screens/Routes";
 import { MappedElement } from "../utils/helpers";
-import { auth, database } from "../firebase";
+import { auth, database, firestore } from "../firebase";
 import CheckForThumbUpRequest from "../components/CheckForThumbUpRequest";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import DrawerContent from '../components/Drawer'
-import Home from "../screens/HelperUser/Home";
-import Header from "../components/Header";
-import { View } from "react-native";
+import { getHelperUserData, updateHelperUserStatus } from "../Store/Actions/UsersActions";
 const Drawer = createDrawerNavigator();
 
 const HelperUserStack = () => {
 	const intervaObj = useRef();
+	const dispatch = useDispatch();
+	const stateProps = useSelector(({User})=>{
+		return {...User};
+	});
+	const { data, activeStatus,helperUserData } = stateProps;
 	useEffect(() => {
 		intervaObj.current = setInterval(() => updateLastActive(),
-			20000);
+			5000);
+		try {
+			database()
+				.ref("helpers").child(auth.currentUser.uid).on("value", (snapshot) => {
+					dispatch(updateHelperUserStatus({ status: snapshot && snapshot.val() && Object.entries(snapshot.val()).length > 1 ? snapshot.val().status : helperStatus.AVAILABLE }));
+					dispatch(getHelperUserData(snapshot && snapshot.val() && Object.entries(snapshot.val()).length > 2 ? snapshot.val() : { assignedUser: "",assignedTime:"" }));
+				});
+		}
+		catch (e) {
+			console.log(e);
+		}
 		return () => {
 			clearInterval(intervaObj.current);
 		};
 	}, []);
+	useEffect(()=>{
+		if(helperUserData.hasOwnProperty('assignedUser') && helperUserData.assignedUser!=="") {
+			database().ref("helpGigs").child(helperUserData.assignedUser).once("value").then(res => {
+				firestore().collection("users").where("id","==",helperUserData.assignedUser).get().then(res=>{
+					alert(res.docs[0].data().fullName + " needs your help!");
+				});
+			}
+			);
+		}
+	},[helperUserData.assignedUser]);
 	const updateLastActive = () => {
 		database()
 			.ref("helpers").child(auth().currentUser.uid)
