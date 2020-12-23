@@ -80,7 +80,7 @@ function DrawerContent(props) {
                 props.navigation.navigate('Edit Meeting Link');
               }}
             />
-            <DrawerItem
+            {/* <DrawerItem
               icon={({ size }) => (
                 <Icon name="near-me" color="#B41116" size={size} />
               )}
@@ -89,7 +89,7 @@ function DrawerContent(props) {
               onPress={() => {
                 props.navigation.navigate('Get Help');
               }}
-            />
+            /> */}
             <DrawerItem
               icon={({ size }) => (
                 <Icon1 name="settings-outline" color="#B41116" size={size} />

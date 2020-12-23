@@ -42,6 +42,7 @@ const HelpAccepted = ({ helperId, onCancel }) => {
 					<CenteredLoading />
 					: <>
 						<H1 style={{fontSize:theme.h2FontSize,textAlign:'center'}} text={`Congrats! ${helperUser.fullName} would like to help you!`} />
+						<Text style={[Styles.paraText,{marginTop:5}]}>When you go to the meeting, make sure you’re logged onto the same personal Google account. School accounts do not allow you to join Google meets.</Text>
 						<Text style={[Styles.btn,{color:'white'}]} onPress={() => {
 							Linking.openURL(helperUser.meetLink)
 								.catch(err => {
@@ -55,7 +56,6 @@ const HelpAccepted = ({ helperId, onCancel }) => {
 							</Text>
 						</TouchableOpacity>
 						<Text style={[Styles.paraText,{marginTop:10}]}>Click ‘DONE”’ after the meeting session is finished.</Text>
-
 					</>
 				}
 			</View>

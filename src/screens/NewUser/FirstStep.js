@@ -17,7 +17,7 @@ const FirstStep = ({ onNext }) => {
 			alert("Please fill all the fields.");
 			return;
 		}
-		if (parseInt(grade) > 10) { alert("Invalid Grade!"); return; }
+		if ((parseInt(grade) > 12 || parseInt(grade) < 1)) { alert("Invalid Grade!"); return; }
 		dispatch(setNewUserData({ fullName, grade }));
 		onNext();
 	};
@@ -32,7 +32,7 @@ const FirstStep = ({ onNext }) => {
 					placeHolder={"Full Name"}
 				/>
 				<Text style={Styles.paraText}>Grade</Text>
-				<NumericInput iconStyle={Styles.arrowIcons} type='up-down' value={grade} onChange={value => setGrade(value)} minValue={1} maxValue={10} />
+				<NumericInput iconStyle={Styles.arrowIcons} type='up-down' value={grade} onChange={value => setGrade(value)} minValue={1} maxValue={12} />
 				<TouchableOpacity style={Styles.btn} onPress={handleSubmit}>
 					<Text style={Styles.btnText}>
 						Next

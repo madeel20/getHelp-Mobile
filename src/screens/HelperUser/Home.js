@@ -38,7 +38,7 @@ const Home = ({ navigation }) => {
 		return (
 			<CLayout>
 				<View style={Styles.innerContainer}>
-					<Text style={[Styles.paraText, { fontSize: theme.h2FontSize }]}>Hey, {data.fullName || ""} go to your google meet link to help! </Text>
+					<Text style={[Styles.paraText, { fontSize: theme.h2FontSize }]}>Hey {data.fullName || ""}, go to your google meet link to help! </Text>
 					<Text style={[Styles.paraText, { fontSize: theme.h3FontSize, marginHorizontal: 5 }]} onPress={() => {
 						Linking.openURL(data.meetLink||"")
 							.catch(err => {
@@ -79,8 +79,8 @@ const Home = ({ navigation }) => {
 					</TouchableOpacity>
 				</View>
 				<Text style={Styles.paraText}>If you switch toggle to ‘yes,’ keep this tab open; </Text>
-				<Text style={Styles.paraText}>You can focus on other tabs. You’ll receive a notification if someone needs help.</Text>
-				<Text style={Styles.paraText}>Your Google Meet link to help others is shown at the top of the tool bar under your name</Text>
+				<Text style={Styles.paraText}>You can be on another app, but you’ll receive a notification if someone needs help from you.</Text>
+				<Text style={Styles.paraText}>Your Google Meet link to help others is shown at the sidebar under your name.</Text>
 			</View>
 		</CLayout>
 	);

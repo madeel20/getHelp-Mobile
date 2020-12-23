@@ -5,7 +5,7 @@ import { insertDetails, setNewUserData } from "../../Store/Actions/UsersActions"
 import { helperStatus, UserRoles } from "../../utils/Constants";
 import CenteredLoading from "../../components/CenteredLoading";
 import CIContainer from "../../components/CIContainer";
-import { Text, View } from "react-native";
+import { Linking, Text, View } from "react-native";
 import Styles from "./styles";
 import H1 from "../../components/H1";
 import CInput from "../../components/CInput";
@@ -27,7 +27,7 @@ const FourthStep = ({ onNext, onFinish }) => {
 		dispatch(insertDetails({ ...newData, id: auth().currentUser.uid, email: auth().currentUser.email, meetLink, role: UserRoles.HELPER_USER }, () => {
 			database()
 				.ref("helpers").child(auth().currentUser.uid)
-				.update({ status: helperStatus.AVAILABLE });
+				.update({ status: helperStatus.NOT_AVAILABLE });
 			onFinish();
 		}));
 	};
@@ -40,12 +40,15 @@ const FourthStep = ({ onNext, onFinish }) => {
 					<CenteredLoading size="large" />
 					:
 					<>
-						<Text style={Styles.paraText}>Now go to meet.google.com (Add hyperlink to meet.google.com)</Text>
+						<Text style={Styles.heading}>Now go to <Text style={{textDecorationLine:'underline'}} onPress={() => Linking.openURL('https://meet.google.com')
+							.catch(err => {
+								console.error("Failed opening page because: ", err)
+								alert('Meeting link is invalid!')
+							})}>meet.google.com</Text> </Text>
 						<Text style={Styles.paraText}>
-							<Text style={{fontWeight:'bold'}}>Important:</Text> Make sure you are using the same personal Google Account you signed up with.
-							Now click “New meeting” and then “Create a meeting for later”, copy that Google Meet link. This will be the permanent link you use to host help sessions.
+							<Text style={{ fontWeight: 'bold' }}>Important:</Text> Make sure you are using the same personal Google Account you signed up with.
+							Now click “New meeting” and then “Create a meeting for later”, copy that Google Meet link. This will be the permanent link you use to host help sessions if or when you choose to help in the future.
 </Text>
-
 						<CInput
 							onChangeText={text => setLink(text)}
 							value={meetLink}

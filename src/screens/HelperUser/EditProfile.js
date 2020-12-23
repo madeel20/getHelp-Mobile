@@ -29,7 +29,7 @@ const EditProfile = ({navigation}) => {
 			alert("Please fill all the fields.");
 			return;
 		}
-		if ((parseInt(grade) > 10 || parseInt(grade) < 1) || isNaN(grade)) { alert("Invalid Grade!"); return; }
+		if ((parseInt(grade) > 12 || parseInt(grade) < 1) || isNaN(grade)) { alert("Invalid Grade!"); return; }
 		dispatch(updateProfileDetails({ grade, fullName }, () => {
 			alert("Profile Updated!");
 		}));

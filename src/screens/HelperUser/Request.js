@@ -57,12 +57,12 @@ const Request = ({ onAccepted }) => {
 	return (
 		<CLayout>
 			<View style={Styles.innerContainer}>
-				<H1 text={`Hi, ${data.fullName}`} />
+				<H1 text={`Hi ${data.fullName}`} />
 				{loading ?
 					<CenteredLoading />
 					:
 					<>
-						<Text>{requestUser.fullName} needs your help in {currentRequest.subjectName} of Grade {currentRequest.grade}.</Text>
+						<Text>{requestUser.fullName} of Grade {currentRequest.grade|""} need your help in {currentRequest.subjectName}.</Text>
 						<View>
 							<TouchableOpacity style={Styles.btn} onPress={handleAccept}>
 								<Text style={Styles.btnText}>
