@@ -55,6 +55,10 @@ const RequestHelp = ({ onRequest }) => {
 					:
 					<>
 						<H1 text="Ask for help" />
+						<Text style={[Styles.paraText, { marginTop: 10 }]}>Please be ready to share your screen with the problem you try to solve.</Text>
+						<Text style={[Styles.paraText, { marginTop: 10 }]}>If your problem is on paper, please take a photo using your phone and show the photo on your computer screen.</Text>
+						<Text style={[Styles.paraText, { marginTop: 10 }]}>Once you are ready, please select subject below.</Text>
+						<Text style={[Styles.paraText, { marginTop: 10 }]}>What subject would you like to be helped with?</Text>
 						<MultipleSelectPicker
 							items={getArrayOfSubjectsAsLabeValueKeys(data)}
 							style={Styles.checkboxContainer}
@@ -71,9 +75,6 @@ const RequestHelp = ({ onRequest }) => {
 								Find Help
 							</Text>
 						</TouchableOpacity>
-						<Text style={[Styles.paraText,{marginTop:10}]}>Please be ready to share your screen with the problem you try to solve.
-						If your problem is on paper, please take a photo using your phone and show the photo on your computer screen.
-</Text>
 					</>
 				}
 			</View>
