@@ -4,6 +4,7 @@ import HelperRecords from "./Common/HelperRecords";
 import EditMeetingLink from "./HelperUser/EditMeetingLink";
 import GetHelp from "./Common/GetHelp/GetHelp";
 import EditProfile from "./HelperUser/EditProfile";
+import ContactUs from "./Common/Contact";
 
 export const HelperUserRoutes =[
 	{route:"", component: Home,exact:true,title:"Home"},
@@ -12,6 +13,7 @@ export const HelperUserRoutes =[
 	{route:"/helper-records",component:HelperRecords,title:"Helper Records"},
 	{route:"/edit-subjects",component:EditSubjects,title:"Edit Subjects"},
 	{route:"/edit-profile",component:EditProfile,title:"Edit Profile"},
+	{route:"/contact-us",component:ContactUs,title:"Contact Us"},
 ];
 
 export const NormalUserRoutes = [

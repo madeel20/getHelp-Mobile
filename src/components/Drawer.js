@@ -29,7 +29,6 @@ function DrawerContent(props) {
 	useEffect(()=> {
 		if(helpGig && helpGig.status === helpGigStatus.ACTIVE){
       navigation.navigate('Get Help')
-			// history.push(data.role === UserRoles.NORMAL_USER?"/":"/get-help");
 		}
 	},[helpGig]);
  
@@ -80,16 +79,6 @@ function DrawerContent(props) {
                 props.navigation.navigate('Edit Meeting Link');
               }}
             />
-            {/* <DrawerItem
-              icon={({ size }) => (
-                <Icon name="near-me" color="#B41116" size={size} />
-              )}
-              label="Get Help"
-              labelStyle={styles.labelstyle}
-              onPress={() => {
-                props.navigation.navigate('Get Help');
-              }}
-            /> */}
             <DrawerItem
               icon={({ size }) => (
                 <Icon1 name="settings-outline" color="#B41116" size={size} />
@@ -119,6 +108,16 @@ function DrawerContent(props) {
               labelStyle={styles.labelstyle}
               onPress={() => {
                 props.navigation.navigate('Edit Profile');
+              }}
+            />
+            <DrawerItem
+              icon={({ size }) => (
+                <Icon1 name="mail-unread-outline" color="#B41116" size={size} />
+              )}
+              label="Contact Us"
+              labelStyle={styles.labelstyle}
+              onPress={() => {
+                props.navigation.navigate('Contact Us');
               }}
             />
           <DrawerItem
