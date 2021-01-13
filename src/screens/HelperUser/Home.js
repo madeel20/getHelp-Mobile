@@ -60,7 +60,7 @@ const Home = ({ navigation }) => {
 						/>
 						<Text  style={[Styles.paraText,{marginTop:10}]}>Please use the “Edit Subjects” tab inside the drawer to select or update subjects you would like to help with.</Text>
 					</View>
-					<TouchableOpacity onPress={() => navigation.navigate('Get Help')} style={Styles.subChildContainer}>
+					<TouchableOpacity onPress={() => {dispatch(updateHelperUserStatus({ status: helperStatus.NOT_AVAILABLE })); navigation.navigate('Get Help')}} style={Styles.subChildContainer}>
 						<View>
 							<Text>	I need help! </Text>
 							<Icon name="near-me" color="black" size={25} style={{ alignSelf: 'center' }} />

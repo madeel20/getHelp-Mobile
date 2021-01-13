@@ -23,7 +23,7 @@ const GetHelp = ({ navigation }) => {
 	});
 	const { helpGig, data } = stateProps;
 	useEffect(() => {
-		dispatch(updateHelperUserStatus({ status: helperStatus.NOT_AVAILABLE }))
+		// dispatch(updateHelperUserStatus({ status: helperStatus.NOT_AVAILABLE }))
 	}, [])
 	useEffect(() => {
 		if (helpGig && helpGig.status === helpGigStatus.ACTIVE) {

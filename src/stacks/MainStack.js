@@ -81,7 +81,7 @@ const MainStack = () => {
 	const { data } = stateProps;
 	return (
 		<>
-			<CheckForThumbUpRequest />
+			{/* <CheckForThumbUpRequest /> */}
 			{data.role === UserRoles.NORMAL_USER ?
 				<UserStack /> :
 				<HelperUserStack />
