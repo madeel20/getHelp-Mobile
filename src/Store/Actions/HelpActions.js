@@ -67,11 +67,12 @@ export const setAssignedUserOfHelperUser = (payload,CB) => dispatch => {
 export const insertIntoAcceptedGigs = (gigId,CB) => dispatch => {
 	dispatch({type:GetHelp.INSERT_ACCEPTED_GIG,payload: {loading:true}});
 	 database().ref("helpGigs").child(gigId).once("value").then(async res=>{
-		 await  database()
-			 .ref("acceptedGigs")
-			 .push({...res.val(), userId: gigId, acceptedTime: new Date().toUTCString()});
-				 dispatch({type:GetHelp.INSERT_ACCEPTED_GIG,payload: {loading:false}});
-				 CB && CB();
+		database
+			.ref("acceptedGigs")
+			.push({ ...res.val(), userId: gigId, acceptedTime: new Date().toUTCString() }).then(res => {
+				dispatch({ type: GetHelp.INSERT_ACCEPTED_GIG, payload: { loading: false } });
+				CB && CB(res.key);
+			});
 	 });
 
 };

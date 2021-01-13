@@ -19,19 +19,7 @@ const Home = ({ navigation }) => {
 	});
 	const [isRequestAccepted, setIsRequestAccepted] = useState(false);
 	const { data, activeStatus, helperUserData } = stateProps;
-	useEffect(() => {
-		try {
-			database()
-				.ref("helpers").child(auth().currentUser.uid).on("value", (snapshot) => {
-					dispatch(updateHelperUserStatus({ status: snapshot && snapshot.val() && Object.entries(snapshot.val()).length > 1 ? snapshot.val().status : helperStatus.AVAILABLE }));
-					dispatch(getHelperUserData(snapshot && snapshot.val() && Object.entries(snapshot.val()).length > 2 ? snapshot.val() : { assignedUser: "",assignedTime:"" }));
-				});
-		}
-		catch (e) {
-			console.log(e);
-		}
-	}, []);
-	if (helperUserData.assignedUser !== "" && helperUserData.assignedTime && (new Date().getTime() - new Date(helperUserData.assignedTime).getTime()) / 1000 < 120) {
+ 	if (helperUserData.assignedUser !== "" && helperUserData.assignedTime && (new Date().getTime() - new Date(helperUserData.assignedTime).getTime()) / 1000 < 120) {
 		return <Request onAccepted={() => setIsRequestAccepted(true)} />;
 	}
 	if (isRequestAccepted) {
@@ -39,6 +27,7 @@ const Home = ({ navigation }) => {
 			<CLayout>
 				<View style={Styles.innerContainer}>
 					<Text style={[Styles.paraText, { fontSize: theme.h2FontSize }]}>Hey {data.fullName || ""}, go to your google meet link to help! </Text>
+					<Text style={[Styles.paraText]}>Make sure you're logged into the same personal Google account ({data?.email}) so you can host your Google meet.</Text>
 					<Text style={[Styles.paraText, { fontSize: theme.h3FontSize, marginHorizontal: 5 }]} onPress={() => {
 						Linking.openURL(data.meetLink||"")
 							.catch(err => {

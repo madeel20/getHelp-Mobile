@@ -43,6 +43,11 @@ const EditProfile = ({navigation}) => {
 					<>
 						<H1 style={Styles.heading} text="Edit Profile" />
 						<CInput
+							value={data?.email}
+							editable={false}
+							
+						/>
+						<CInput
 							onChangeText={text => setFullName(text)}
 							value={fullName}
 							placeHolder={"Full Name"}

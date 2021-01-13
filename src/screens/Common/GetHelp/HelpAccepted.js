@@ -32,7 +32,7 @@ const HelpAccepted = ({ helperId, helpGig, onCancel, user }) => {
 	}, []);
 	useEffect(() => {
 		if (helpGig && helpGig.acceptedGigsId) {
-			database.ref("acceptedGigs").child(helpGig.acceptedGigsId).once("value").then(res => {
+			database().ref("acceptedGigs").child(helpGig.acceptedGigsId).once("value").then(res => {
 				setAcceptedObj({ ...res.val() });
 			})
 		}
@@ -84,14 +84,14 @@ const HelpAccepted = ({ helperId, helpGig, onCancel, user }) => {
 						</TouchableOpacity>
 						<Text style={[Styles.paraText,{marginTop:10}]}>Click ‘DONE”’ after the meeting session is finished.</Text> */}
 						{Object.entries(acceptedGigObj).length > 0 && !acceptedGigObj.hasOwnProperty('thumbsUp') &&
-							<View style={{ marginTop: 20, padding: 5 }}>
+							<View style={{ marginTop: 40, padding: 5 }}>
 								<Text>After you finish with the Google meeting, if you found the session helpful, please remember to give {helperUser.fullName} a thumbs up.</Text>
-								<View style={{ flexDirection: 'row' }}>
-									<TouchableOpacity style={Styles.btn} onPress={handleYes}>
-										<Icon name="thumb-up" color={themeColor} />
+								<View style={{ flexDirection: 'row',marginTop:20 ,justifyContent:'center'}}>
+									<TouchableOpacity onPress={handleYes}>
+										<Icon name="thumb-up" size={30} color={themeColor} />
 									</TouchableOpacity>
-									<TouchableOpacity style={Styles.btn} onPress={handleNo}>
-										<Text>Not this time</Text>
+									<TouchableOpacity onPress={handleNo}>
+									<Text style={[Styles.btn, { backgroundColor:'' }]}>Not this time</Text>
 									</TouchableOpacity>
 								</View>
 							</View>

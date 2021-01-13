@@ -21,7 +21,7 @@ const HelperUserStack = () => {
 	useEffect(() => {
 		intervaObj.current = setInterval(() => updateLastActive(),
 			5000);
-		try {
+		try { 
 			database()
 				.ref("helpers").child(auth().currentUser.uid).on("value", (snapshot) => {
 					dispatch(updateHelperUserStatus({ status: snapshot && snapshot.val() && Object.entries(snapshot.val()).length > 1 ? snapshot.val().status : helperStatus.AVAILABLE }));
@@ -50,15 +50,12 @@ const HelperUserStack = () => {
 			.ref("helpers").child(auth().currentUser.uid)
 			.update({ lastActive: new Date().toUTCString() })
 	}
-	const renderDrawerScreens=()=>{
-		return HelperUserRoutes.map(obj=>{
-			return <Drawer.Screen name={obj.title} component={obj.component} key={obj.title} />
-		})
-	}
 	return (
 		<Drawer.Navigator
 			drawerContent={(props) => <DrawerContent {...props} />}>
-					{renderDrawerScreens()}
+					{HelperUserRoutes.map(obj=>{
+			return <Drawer.Screen name={obj.title} component={obj.component} key={obj.title} />
+		})}
 		</Drawer.Navigator>
 	);
 };

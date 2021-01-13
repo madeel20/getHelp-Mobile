@@ -9,6 +9,10 @@ import HelpAccepted from "./HelpAccepted";
 import CLayout from "../../../components/CLayout";
 import { View } from "react-native";
 import styles from "../../HelperUser/styles";
+import H1 from "../../../components/H1";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import theme from "../../../theme";
+import { Text } from "react-native";
 const GetHelp = ({ navigation }) => {
 	const dispatch = useDispatch();
 	const [isHelpRequestAssigned, setHelpRequestAssigned] = useState(false);
@@ -20,6 +24,8 @@ const GetHelp = ({ navigation }) => {
 	const { helpGig, data } = stateProps;
 	useEffect(() => {
 		dispatch(updateHelperUserStatus({ status: helperStatus.NOT_AVAILABLE }))
+	}, [])
+	useEffect(() => {
 		if (helpGig && helpGig.status === helpGigStatus.ACTIVE) {
 			setHelpRequestAssigned(true);
 		}
@@ -42,7 +48,7 @@ const GetHelp = ({ navigation }) => {
 	if (isRequestTimedOut) {
 		return (
 			<CLayout>
-				<View style={Styles.innerContainer}>
+				<View style={styles.innerContainer}>
 					<H1 style={{ fontSize: theme.h2FontSize, textAlign: 'center' }} text={`Whoops, No match found!`} />
 					<TouchableOpacity style={styles.btn} onPress={() => setIsRequestTimedOut(false)}>
 						<Text style={styles.btnText}>
@@ -60,7 +66,7 @@ const GetHelp = ({ navigation }) => {
 		return <CLayout><WaitingForHelp onCancel={() => { setHelpRequestAssigned(false); navigation.navigate('Home'); }} /></CLayout>;
 	}
 	else {
-		return <CLayout><RequestHelp onRequest={() => { setHelpRequestAssigned(true); }} /></CLayout>;
+		return <CLayout><RequestHelp onRequest={() => { setHelpRequestAssigned(true); isNotificationAlreadyShown.current =false; }} /></CLayout>;
 	}
 };
 export default GetHelp;

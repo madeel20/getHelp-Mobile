@@ -37,7 +37,7 @@ const Request = ({ onAccepted }) => {
 	}, [helperUserData.assignedUser]);
 	const handleCancel = () => {
 		setLoading(true);
-		dispatch(updateHelpGig(helperUserData.assignedUser, { status: helpGigStatus.ACTIVE }, () => {
+		dispatch(updateHelpGig(helperUserData.assignedUser, { status: helpGigStatus.ACTIVE, lastHelperAssignedTime:"" ,helperId:"" }, () => {
 			dispatch(setAssignedUserOfHelperUser({ assignedUser: "" ,assignedTime:""}, () => {
 				setLoading(false);
 			}));
@@ -45,11 +45,13 @@ const Request = ({ onAccepted }) => {
 	};
 	const handleAccept = () => {
 		setLoading(true);
-		dispatch(updateHelpGig(helperUserData.assignedUser, { status: helpGigStatus.ASSIGNED, helperId: auth().currentUser.uid ,lastHelperAssignedTime:""}, () => {
-			dispatch(insertIntoAcceptedGigs(helperUserData.assignedUser, () => {
-				dispatch(setAssignedUserOfHelperUser({ assignedUser: "",assignedTime:"" }, () => {
-					onAccepted();
-					setLoading(false);
+		dispatch(updateHelpGig(helperUserData.assignedUser, { status: helpGigStatus.ASSIGNED, helperId: auth().currentUser.uid, lastHelperAssignedTime: "" }, () => {
+			dispatch(insertIntoAcceptedGigs(helperUserData.assignedUser, (key) => {
+				dispatch(updateHelpGig(helperUserData.assignedUser, { acceptedGigsId: key }, () => {
+					dispatch(setAssignedUserOfHelperUser({ assignedUser: "", assignedTime: "" }, () => {
+						onAccepted();
+						setLoading(false);
+					}));
 				}));
 			}));
 		}));

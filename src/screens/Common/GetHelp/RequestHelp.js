@@ -29,13 +29,6 @@ const RequestHelp = ({ onRequest }) => {
 			alert("Select a Subject first!");
 			return;
 		}
-		console.log({
-			status: helpGigStatus.ACTIVE,
-			subjectId: subject[0].value,
-			grade: stateProps.User.data.grade,
-			subjectName: data.find(it => it.id === subject[0].value).name,
-			dateTime: new Date().toUTCString(),
-		})
 		dispatch(insertHelp({
 			status: helpGigStatus.ACTIVE,
 			subjectId: subject[0].value,
