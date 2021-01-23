@@ -13,15 +13,18 @@ import CLayout from "../../components/CLayout";
 import styles from "../HelperUser/styles";
 import { ScrollView } from "react-native-gesture-handler";
 import { themeColor } from "../../theme";
+import { useIsFocused } from "@react-navigation/native";
 const HelperRecords = () => {
+	const isfocused = useIsFocused();
 	const stateProps = useSelector(({ User }) => {
 		return { ...User };
 	});
 	const { data } = stateProps;
 	const [records, setRecords] = useState([]);
 	const [users, setUsers] = useState([]);
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 	useEffect(() => {
+		setLoading(true)
 		database().ref("acceptedGigs").orderByChild('dateTime').once("value").then(async (snap) => {
 				// convert it to javascript array of object
 				let res = convertDBSnapshoptToArrayOfObject(snap);
@@ -47,7 +50,7 @@ const HelperRecords = () => {
 			setLoading(false);
 		});
 
-	}, []);
+	}, [isfocused]);
 	if (data.role === UserRoles.HELPER_USER) {
 		return (
 			<CLayout>
